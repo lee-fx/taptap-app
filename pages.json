@@ -1,0 +1,117 @@
+{
+	"pages": [{
+			"path": "pages/index/index"
+		}, {
+			"path": "pages/recommend/recommend",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/dynamic/dynamic",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/rank/rank",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/mine/mine",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/games/games",
+			"style": {
+				"navigationBarTitleText": "游戏列表",
+				"enablePullDownRefresh": true
+			}
+
+		}, {
+			"path": "pages/contact/contact",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/community/community",
+			"style": {
+				"navigationBarTitleText": "社区交流",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/game-detail/game-detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "Login"
+			}
+		},
+		{
+			"path": "pages/register/register",
+			"style": {
+				"navigationBarTitleText": "Register"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "taptap",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8",
+		"navigationStyle": "custom"
+	},
+	"usingComponts": true,
+	"tabBar": {
+		"color": "#AAAAAA",
+		"selectedColor": "#47b5dd",
+		"list": [{
+				"text": "首页",
+				"pagePath": "pages/index/index",
+				"iconPath": "static/image/icon/sy.png",
+				"selectedIconPath": "static/image/icon/sy_clink.png"
+			},
+			// {
+			// 	"text": "推荐",
+			// 	"pagePath": "pages/recommend/recommend",
+			// 	"iconPath": "static/image/icon/recommend.png",
+			// 	"selectedIconPath": "static/image/icon/recommend_clink.png"
+			// },
+			{
+				"text": "动态",
+				"pagePath": "pages/dynamic/dynamic",
+				"iconPath": "static/image/icon/dynamic.png",
+				"selectedIconPath": "static/image/icon/dynamic_click.png"
+			},
+			{
+				"text": "排行",
+				"pagePath": "pages/rank/rank",
+				"iconPath": "static/image/icon/rank.png",
+				"selectedIconPath": "static/image/icon/rank_clink.png"
+			},
+			{
+				"text": "我的",
+				"pagePath": "pages/mine/mine",
+				"iconPath": "static/image/icon/mine.png",
+				"selectedIconPath": "static/image/icon/mine_clink.png"
+			}
+
+		]
+	}
+}

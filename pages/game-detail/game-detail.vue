@@ -1,0 +1,393 @@
+<template>
+	<view class="home">
+		<cu-custom bgColor="bg-cyan" :isBack="true">
+			<block slot="backText">返回</block>
+			<block slot="content">游戏简介</block>
+		</cu-custom>
+
+		<view class="header_top">
+			<view class="game_icon">
+				<image src="../../static/image/rank/game_demo.png"></image>
+			</view>
+			<view class="r_btn">
+				<view class="gz">
+					<image src="../../static/image/icon/hert.png"></image>
+					<text>关注</text>
+				</view>
+			</view>
+		</view>
+
+		<view class="game_info">
+			<view class="game_name">梦幻魔法森林</view>
+			<view class="game_company">
+				<text>厂商：麟祥（北京）科技有限公司</text>
+			</view>
+			<view class="game_mana">
+				<!-- 未选中的星星为镂空状态 -->
+				<view class="mana">
+					<uni-rate :readonly="true" size="16" color="#b0b0a4" activeColor="#14B9C8" :value="rate"
+						:is-fill="false" />
+				</view>
+				<view>
+					<text>{{rate}}</text>
+				</view>
+			</view>
+			<view class="game_attention">
+				<text>{{attention}}人关注</text>
+			</view>
+
+			<view class="down">
+				<view class="btn">
+					<image src="../../static/image/icon/android.png"></image>
+					<text>下载</text>
+				</view>
+			</view>
+		</view>
+
+		<view class="tabbar">
+			<view class="bar_btn">
+				<view class="bar_item" v-for="(item, index) in tabbar" :key="index"
+					@click="leftClickHandle(index, item.id)" :class="index === active ? 'active':''">
+					<text class="txt">{{item.text}}</text>
+					<view class="bar" :class="index === active ? 'back-color':''"></view>
+				</view>
+			</view>
+		</view>
+
+		<game-detail v-show="active == 0" :gameData="gameData" :allInfo="allInfo" :claimInfo="claimInfo"
+			:bannerInfo="bannerInfo">
+		</game-detail>
+
+		<game-comment v-show="active == 1" :scoreInfo="scoreInfo" :commentInfo="commentInfo" :rate="rate">
+		</game-comment>
+
+		<game-community v-show="active == 2">
+		</game-community>
+
+	</view>
+</template>
+
+<script>
+	import gameDetail from '@/pages/components/GameDetail/game-detail.vue'
+	import gameComment from '@/pages/components/GameDetail/game-comment.vue'
+	import gameCommunity from '@/pages/components/GameDetail/game-community.vue'
+
+	export default {
+		data() {
+			return {
+				rate: 4.5, // 星星有几颗
+				attention: 48848, // 关注数
+				active: 0, // 单选框选中状态
+				gameData: '《秦时明月世界》，原“腾讯秦时明月手游”，是由玄机授权，根据国漫代表作品—《秦时明月》系列动漫改编而成的3DMMORPG手机游戏， 致力于呈现合纵连横、 百家争鸣、 文化碰撞、 华夏一统的大秦风貌， 打造一个生动、 可触碰的秦时世界。游戏对《 秦时明月》 系列动画的经典剧情、 场景、 人物、 音乐等高度还原， 形成丰富的游戏大世界， 融合了历史、 武侠、 奇幻等诸多元素；游戏在玩法上根据诸子百家进行职业定位， 装备、 武学、 伙伴等多样化成长； 提供丰富的单人和小团队的PVE、 PVP， 以及多人战场和休闲玩法；通过多层次的社交结构和丰富的社交手段， 让玩家形成有协作、 有配合、 轻松和谐的游戏社区。 ',
+				tabbar: [{ // 单选框元素
+						id: 0,
+						text: '详情',
+						url: 'aaaa/bbbb.html'
+					},
+					{
+						id: 1,
+						text: '评价',
+						url: 'aaaa/bbbb.html'
+					},
+					{
+						id: 2,
+						text: '社区',
+						url: 'aaaa/bbbb.html'
+					}
+				],
+				allInfo: [{
+						title: '文件大小',
+						val: '518.93'
+					},
+					{
+						title: '当前版本',
+						val: '1.12.1257'
+					},
+					{
+						title: '更新时间',
+						val: '2021年3月26日'
+					},
+					{
+						title: '厂商',
+						val: 'tencent'
+					}
+				],
+				claimInfo: [ // 手机要求
+					{
+						url: "../../static/image/icon/android.png",
+						title: "无需网络"
+					},
+					{
+						url: "../../static/image/icon/android.png",
+						title: "无系统要求"
+					}
+				],
+				bannerInfo: [{
+						id: 1,
+						url: "../../static/image/banner/b1.jpg"
+					},
+					{
+						id: 2,
+						url: "../../static/image/banner/b2.jpg"
+					},
+					{
+						id: 3,
+						url: "../../static/image/banner/b3.jpg"
+					},
+					{
+						id: 4,
+						url: "../../static/image/banner/b4.jpg"
+					},
+					{
+						id: 5,
+						url: "../../static/image/banner/b5.jpg"
+					}
+				],
+				scoreInfo: [{
+						mana: 5,
+						score: 65
+					},
+					{
+						mana: 4,
+						score: 20
+					},
+					{
+						mana: 3,
+						score: 13
+					},
+					{
+						mana: 2,
+						score: 5
+					},
+					{
+						mana: 1,
+						score: 12
+					},
+				],
+				commentInfo: [{
+						id: 0,
+						title: '全部'
+					},
+					{
+						id: 1,
+						title: '好评'
+					},
+					{
+						id: 2,
+						title: '中评'
+					},
+					{
+						id: 3,
+						title: '差评'
+					},
+					{
+						id: 4,
+						title: '动作combo'
+					},
+					{
+						id: 5,
+						title: 'MOBA塔防'
+					},
+					{
+						id: 6,
+						title: '策略烧脑'
+					},
+					{
+						id: 7,
+						title: '家园建造'
+					}
+				]
+			}
+		},
+		methods: {
+
+			async leftClickHandle(index, id) {
+				this.active = id
+				// const res = await this.$myRequest({
+				// 	url: '/api/getImages/' + id
+				// })
+			}
+		},
+		components: {
+			"game-detail": gameDetail,
+			"game-comment": gameComment,
+			"game-community": gameCommunity
+		}
+	}
+</script>
+
+<style lang="scss">
+	.header_top {
+		width: 750rpx;
+		height: 356rpx;
+		display: flex;
+		justify-content: space-around;
+		position: relative; // 父级相对定位
+
+		.game_icon {
+			display: flex;
+			width: 750rpx;
+			height: 256rpx;
+			margin: 60rpx 0 40rpx 0rpx;
+			justify-content: center;
+			box-sizing: border-box; // 不破坏原始盒子
+			text-align: center;
+
+			image {
+				width: 256rpx;
+				height: 256rpx;
+			}
+		}
+
+		.r_btn {
+			width: 120rpx;
+			height: 40rpx;
+			position: absolute; // 子类依托子类的绝对定位 另外一个是relative
+			right: 20rpx; // 相对定位
+			top: 60rpx;
+
+			.gz {
+				display: flex;
+				align-items: center;
+
+				image {
+					width: 36rpx;
+					height: 36rpx;
+				}
+
+				text {
+					font-size: 30rpx;
+					text-align: right;
+					height: 40rpx;
+					color: $common-color;
+					margin-left: 10rpx;
+				}
+			}
+
+		}
+
+
+	}
+
+	.game_info {
+		width: 750rpx;
+		height: 358rpx;
+
+		.game_name {
+			width: 750rpx;
+			height: 60rpx;
+			text-align: center;
+			font-size: 52rpx;
+			line-height: 60rpx;
+		}
+
+		.game_company {
+			width: 750rpx;
+			height: 40rpx;
+			text-align: center;
+			box-sizing: border-box;
+			font-size: 24rpx;
+			line-height: 40rpx;
+			color: #14B9C8;
+		}
+
+		.game_mana {
+			width: 750rpx;
+			height: 32rpx;
+			display: flex;
+			justify-content: center; // flex横向布局的纵向居中
+
+			.mana {
+				margin-right: 10rpx;
+			}
+
+			text {
+				display: block;
+				color: #7d7d7d;
+				font-size: 32rpx;
+			}
+		}
+
+		.game_attention {
+			font-size: 28rpx;
+			width: 750rpx;
+			height: 50rpx;
+			margin-top: 20rpx;
+			color: #9f9f9f;
+			text-align: center;
+		}
+
+		.down {
+			width: 750rpx;
+			height: 138rpx;
+			padding: 0rpx 10rpx 20rpx 10rpx;
+			display: flex;
+			align-items: center;
+
+			.btn {
+				width: 250rpx;
+				height: 88rpx;
+				line-height: 88rpx;
+				text-align: center;
+				margin: 20rpx auto;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background: #14B9C8;
+				border-radius: 8rpx;
+
+				image {
+					width: 40rpx;
+					height: 40rpx;
+					margin-right: 8rpx;
+					display: block; // inlineblock  block
+				}
+
+				text {
+					width: 80rpx;
+					height: 40rpx;
+					line-height: 40rpx;
+					display: block;
+					color: #fff;
+					font-size: 30rpx;
+				}
+			}
+
+		}
+	}
+
+	.tabbar {
+		.bar_btn {
+			background: #f1f1f1;
+			display: flex;
+
+			.bar_item {
+				width: 250rpx;
+				height: 90rpx;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background: #fff;
+				margin-top: 10rpx;
+				border-bottom: 5rpx solid #EEEEEE;
+				position: relative;
+			}
+
+			.active {
+				color: #14B9C8;
+			}
+
+			.back_color {
+				background: #14B9C8;
+			}
+
+			.bar {
+				position: absolute;
+				width: 64rpx;
+				height: 6rpx;
+				right: 90rpx; // 相对定位
+				top: 90rpx;
+			}
+		}
+	}
+</style>
