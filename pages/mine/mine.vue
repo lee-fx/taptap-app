@@ -33,7 +33,7 @@
 				</view>
 			</view>
 		</view>
-		<image src="/static/image/icon/bolang.gif" class="back_gif"></image>
+		<image src="/static/image/icon/bolang3.gif" class="back_gif"></image>
 	</view>
 </template>
 
@@ -59,7 +59,7 @@
 
 <style lang="scss">	
 	.home {
-		background: #FFFFFF;
+		background: #fcfcfc;
 	}
 
 	.main {
@@ -177,9 +177,9 @@
 
 	.back_gif {
 		position: absolute;
-		left: 0;
-		top: 0;
-		width: 100vw;
-		height: 100vh;
+		left: 30vw;
+		bottom: 0;
+		width: 68vw;
+		height: 32vh;
 	}
 </style>

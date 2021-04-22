@@ -1,7 +1,7 @@
 <template>
 	<view class="home">
 		<cu-custom bgColor="bg-white" :isBack="true">
-			<block slot="content">游戏大全</block>
+			<block slot="content">游戏排行</block>
 		</cu-custom>
 		<view class="head_top">
 			<view class="search icon icon-sousuo"><text class="search_text" space="nbsp">&nbsp;&nbsp;&nbsp;&nbsp; 搜索</text></view>
