@@ -1,13 +1,14 @@
 <template>
 	<view class="home">
-		<cu-custom bgColor="bg-white" :isBack="true">
-			<block slot="content" class="title">游戏大全</block>
-		</cu-custom>
+		<!-- 		<cu-custom bgColor="bg-white" :isBack="true">
+			<block slot="content" class="title">首页</block>
+		</cu-custom> -->
 		<!-- 轮播图 -->
 		<view class="swiper">
-			<swiper indicator-dots circular indicator-active-color="#14B9C8" indicator-color="#F0F8FF">
+			<swiper indicator-dots circular autoplay interval="5000" indicator-active-color="#14B9C8"
+				indicator-color="#F0F8FF">
 				<swiper-item v-for="item in swipers" :key=item.id>
-					<image :src="item.image_url"></image>
+					<image :src="item.GlobalValue"></image>
 				</swiper-item>
 			</swiper>
 		</view>
@@ -29,76 +30,39 @@
 			<games-list @gameItemClick="goGameDetail" :games="games"></games-list>
 		</view> -->
 
-		<view class="app_simple">
-			<view class="title">
-				<view class="title_left">
-					<view class="bar">
-					</view>
-					<view class="text">
-						每日新发现
-					</view>
-				</view>
-
-				<view class="title_right">
-					更多
-				</view>
-			</view>
-			<scroll-view class="content" scroll-x scroll-with-animation>
-				<view class="content_item">
-					<image src="../../static/image/icon/dao.png" mode="aspectFit"></image>
-					<view class="content_text">
-						上古卷轴：刀锋4569869
-					</view>
-				</view>
-				<view class="content_item">
-					<image src="../../static/image/icon/dao.png" mode="aspectFit"></image>
-					<view class="content_text">
-						救世奇asdfwe
-					</view>
-				</view>
-				<view class="content_item">
-					<image src="../../static/image/icon/dao.png" mode="aspectFit"></image>
-					<view class="content_text">
-						非缘：缘起缘灭
-					</view>
-				</view>
-				<view class="content_item">
-					<image src="../../static/image/icon/dao.png" mode="aspectFit"></image>
-					<view class="content_text">
-						非常英雄
-					</view>
-				</view>
-				<view class="content_item">
-					<image src="../../static/image/icon/dao.png" mode="aspectFit"></image>
-					<view class="content_text">
-						英雄救世
-					</view>
-				</view>
-			</scroll-view>
-		</view>
+		<!--
+		    新游（最新上线或者更新的游戏）
+			热游（关注最多的游戏排行）
+			优质推荐（评分最高）
+			尝鲜特供（类型独特游戏）
+		-->
+		<games-nav :games="newGames"></games-nav>
+		<view class="border"></view>
+		<games-nav :games="hotGames"></games-nav>
+		<games-nav :games="goodGames"></games-nav>
+		<games-nav :games="novelGames"></games-nav>
 
 	</view>
 </template>
 
 <script>
 	import gamesList from '../components/GameList/games-list.vue'
+	import gamesNav from '../components/GameList/games-nav.vue'
 	export default {
 		data() {
 			return {
-				swipers: [{
-						id: 1,
-						image_url: '/static/image/swipers/lb1.jpeg'
-					},
-					{
-						id: 2,
-						image_url: '/static/image/swipers/lb2.jpg'
-					}, {
-						id: 3,
-						image_url: '/static/image/swipers/lb3.jpeg'
-					}
-				],
+				swipers: [],
 				games: [],
+				gameNum: 10,  // 每种游戏的数量（共用）
 				navs: [{
+						icon: '/static/image/navs/all.png',
+						title: '全部游戏',
+						path: '/pages/games/games'
+					}, {
+						icon: '/static/image/navs/auth.png',
+						title: '开发简介',
+						path: '/pages/contact/contact'
+					}, {
 						icon: '/static/image/navs/say.png',
 						title: '聊天语音',
 						path: '/pages/community/community'
@@ -107,42 +71,101 @@
 						icon: '/static/image/navs/video.png',
 						title: '影视大全',
 						path: '/pages/video/video'
-					}, {
-						icon: '/static/image/navs/all.png',
-						title: '全部游戏',
-						path: '/pages/games/games'
 					},
-					{
-						icon: '/static/image/navs/auth.png',
-						title: '开发简介',
-						path: '/pages/contact/contact'
-					},
-
 					{
 						icon: '/static/image/navs/storage.png',
 						title: '相册存储',
 						path: '/pages/games/games'
 					}
-				]
+				],
+				newGames: {
+					type: 1,
+					title: '新游',
+					data: [{
+						id: 1,
+						icon: '/static/image/icon/dao.png',
+						name: '上古卷轴：刀锋4569869'
+					}, {
+						id: 2,
+						icon: '/static/image/icon/dao.png',
+						name: '救世奇asdfwe'
+					}, {
+						id: 3,
+						icon: '/static/image/icon/dao.png',
+						name: '英雄救世'
+					}]
+				},
+				hotGames: {
+					type: 2,
+					title: '热游',
+					data: [{
+						id: 1,
+						icon: '/static/image/icon/dao.png',
+						name: '上古卷轴：刀锋4569869'
+					}, {
+						id: 2,
+						icon: '/static/image/icon/dao.png',
+						name: '救世奇asdfwe'
+					}, {
+						id: 3,
+						icon: '/static/image/icon/dao.png',
+						name: '英雄救世'
+					}]
+				},
+				goodGames: {
+					type: 3,
+					title: '优质推荐',
+					data: [{
+						id: 1,
+						icon: '/static/image/icon/dao.png',
+						name: '上古卷轴：刀锋4569869'
+					}, {
+						id: 2,
+						icon: '/static/image/icon/dao.png',
+						name: '救世奇asdfwe'
+					}, {
+						id: 3,
+						icon: '/static/image/icon/dao.png',
+						name: '英雄救世'
+					}]
+				},
+				novelGames: {
+					type: 4,
+					title: '尝鲜特供',
+					data: [{
+						id: 1,
+						icon: '/static/image/icon/dao.png',
+						name: '上古卷轴：刀锋4569869'
+					}, {
+						id: 2,
+						icon: '/static/image/icon/dao.png',
+						name: '救世奇asdfwe'
+					}, {
+						id: 3,
+						icon: '/static/image/icon/dao.png',
+						name: '英雄救世'
+					}]
+				}
 			}
 		},
 		onLoad() {
-			// this.getSwipers()
-			// this.getHotGames()
+			this.getSwipers()
+			this.getTypeGames()
 		},
 		methods: {
 			// 获取轮播图的数据
 			async getSwipers() {
 				const res = await this.$myRequest({
-					url: '/getSwipers'
+					url: '/home/getSwipers',
+					method: 'POST'
 				})
 				console.log(res.data);
 				this.swipers = res.data
 			},
 			// 获取热门游戏列表
-			async getHotGames() {
+			async getTypeGames() {
 				const res = await this.$myRequest({
-					url: '/getHotGames?page=1'
+					url: '/home/getTypeGames/' + this.gameNum
 				})
 				this.games = res.data
 			},
@@ -160,7 +183,8 @@
 			}
 		},
 		components: {
-			"games-list": gamesList
+			"games-list": gamesList,
+			"games-nav": gamesNav,
 		}
 	}
 </script>
@@ -175,7 +199,6 @@
 		::-webkit-scrollbar {
 			display: none;
 		}
-
 	}
 
 	.swiper {
@@ -223,95 +246,7 @@
 		}
 	}
 
-	.hot_game {
-		background: #eee;
-		overflow: hidden;
-
-		.title {
-			width: 750rpx;
-			height: 78rpx;
-			color: #DD524D;
-			letter-spacing: 20rpx;
-			line-height: 78rpx; // 行高
-			text-align: center; //居中
-			background: #FFFFFF;
-			margin: 10rpx 0rpx;
-		}
-
-
-	}
-
-	.app_simple {
-		width: 750rpx;
-		height: 386rpx;
-		background: #FFFFFF; // 背景色
-
-		.title {
-			width: 750rpx;
-			height: 100rpx;
-
-			display: flex; // 使用flex布局
-			justify-content: space-between; // 元素左右拉开
-			align-items: center;
-			box-sizing: border-box;
-
-			padding: 0 30rpx; // 上下0 左右30
-			font-size: 28rpx;
-
-			.title_left {
-				display: flex;
-				align-items: center;
-
-				.bar {
-					width: 8rpx;
-					height: 40rpx;
-					background: #14B9C8;
-					margin-right: 12rpx;
-				}
-
-				.text {
-					font-size: 32rpx;
-					margin-right: 12rpx;
-				}
-			}
-
-			.title_right {
-				font-size: 24rpx;
-				color: #14B9C8;
-			}
-		}
-
-		.content {
-			width: 750rpx;
-			height: 256rpx;
-			margin-left: 30rpx;
-			white-space: nowrap; // 不换行
-
-			.content_item {
-				width: 168rpx;
-				height: 256rpx;
-				display: inline-block;
-
-				margin-right: 24rpx;
-
-				.content_text {
-					width: 168rpx;
-					height: 80rpx;
-					font-size: 24rpx;
-					line-height: 32rpx;
-					overflow: hidden;
-					white-space: pre-line;
-					margin-top: 15rpx;
-				}
-			}
-
-			image {
-				width: 168rpx;
-				height: 168rpx;
-				border-radius: 12rpx;
-			}
-
-
-		}
+	.border {
+		border-bottom: 5rpx solid #EEEEEE;
 	}
 </style>

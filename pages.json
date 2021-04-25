@@ -94,7 +94,7 @@
 			// 	"selectedIconPath": "static/image/icon/recommend_clink.png"
 			// },
 			{
-				"text": "动态",
+				"text": "推荐",
 				"pagePath": "pages/dynamic/dynamic",
 				"iconPath": "static/image/icon/dynamic.png",
 				"selectedIconPath": "static/image/icon/dynamic_click.png"

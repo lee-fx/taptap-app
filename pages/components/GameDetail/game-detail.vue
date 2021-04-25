@@ -10,7 +10,7 @@
 			</view>
 			<view class="info">
 				<view :class="{hide:!isInfo}">
-					{{gameData}}
+					{{gameData.GameDesc}}
 				</view>
 				<text @tap="showInfo" v-show="!isInfo">展开</text>
 			</view>
@@ -73,8 +73,8 @@
 	export default {
 		props: {
 			gameData: {
-				type: String,
-				default: ''
+				type: Object,
+				default: e => {}
 			},
 			allInfo: {
 				type: Array,

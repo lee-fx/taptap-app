@@ -5,9 +5,9 @@
 			<view class="mana_left">
 				<view class="top">
 					<image src="../../../static/image/icon/mana_blue.png"></image>
-					<text>5.7</text>
+					<text>{{gameData.Mana}}</text>
 				</view>
-				<text>1936个评价</text>
+				<text>{{gameData.Attention}}个评价</text>
 			</view>
 
 			<view class="mana_right">
@@ -53,13 +53,13 @@
 				</view>
 
 				<view class="manaa">
-					<uni-rate :readonly="true" size="12" color="#fafaea" activeColor="#14B9C8" :value="rate"
+					<uni-rate :readonly="true" size="12" color="#fafaea" activeColor="#14B9C8" :value="gameData.Mana"
 						:is-fill="false" />
-					<text v-if="rate <= 1">讨厌</text>
-					<text v-if="rate <= 2 && rate > 1">不喜欢</text>
-					<text v-if="rate <= 3 && rate > 2">还可以</text>
-					<text v-if="rate <= 4 && rate > 3">很不错</text>
-					<text v-if="rate <= 5 && rate > 4">棒极了</text>
+					<text v-if="gameData.Mana <= 1">讨厌</text>
+					<text v-if="gameData.Mana <= 2 && gameData.Mana > 1">不喜欢</text>
+					<text v-if="gameData.Mana <= 3 && gameData.Mana > 2">还可以</text>
+					<text v-if="gameData.Mana <= 4 && gameData.Mana > 3">很不错</text>
+					<text v-if="gameData.Mana <= 5 && gameData.Mana > 4">棒极了</text>
 
 				</view>
 
@@ -85,20 +85,20 @@
 				</view>
 
 				<view class="manaa">
-					<uni-rate :readonly="true" size="12" color="#fafaea" activeColor="#14B9C8" :value="rate"
+					<uni-rate :readonly="true" size="12" color="#fafaea" activeColor="#14B9C8" :value="gameData.Mana"
 						:is-fill="false" />
-					<text v-if="rate <= 1">讨厌</text>
-					<text v-if="rate <= 2 && rate > 1">不喜欢</text>
-					<text v-if="rate <= 3 && rate > 2">还可以</text>
-					<text v-if="rate <= 4 && rate > 3">很不错</text>
-					<text v-if="rate <= 5 && rate > 4">棒极了</text>
+					<text v-if="gameData.Mana <= 1">讨厌</text>
+					<text v-if="gameData.Mana <= 2 && gameData.Mana > 1">不喜欢</text>
+					<text v-if="gameData.Mana <= 3 && gameData.Mana > 2">还可以</text>
+					<text v-if="gameData.Mana <= 4 && gameData.Mana > 3">很不错</text>
+					<text v-if="gameData.Mana <= 5 && gameData.Mana > 4">棒极了</text>
 
 				</view>
 
 				<view class="info_comment">
 					{{comment}}
 				</view>
-				
+
 				<view class="bottom">
 					<image src="../../../static/image/icon/cyx.png"></image>
 					<image src="../../../static/image/icon/dz.png"></image>
@@ -112,9 +112,9 @@
 <script>
 	export default {
 		props: {
-			rate: {
-				type: Number,
-				default: 1
+			gameData: {
+				type: Object,
+				default: e => {}
 			},
 			scoreInfo: {
 				type: Array,

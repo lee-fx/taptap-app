@@ -1,20 +1,24 @@
 <template>
 	<view class="game_list">
-		<view class="game_item" v-for="(item, index) in games" :key="index" @click="navigator(item.id)">
-			<image :src="item.img_url" src="../../../static/image/icon/dao.png"></image>
-			<view class="price">
-				<text>{{item.sell_price}}</text>
-				<text>{{item.market_price}}</text>
+		<view class="game_item" v-for="(item, index) in games" :key="index" @click="navigator(item.Id)">
+			<image :src="item.Icon"></image>
+			<view class="name">{{item.Name}}</view>
+			<view class="classification">
+				<text>{{item.GameTag}}</text>
+				<view class="mana">
+					<text>{{item.Mana}}</text>
+					<image src="../../../static/image/icon/mana_333.png"></image>
+				</view>
 			</view>
-			<view class="name">{{item.game_name}}</view>
+
 		</view>
 	</view>
 </template>
 
 <script>
 	export default {
-		props:['games'],
-		methods:{
+		props: ['games'],
+		methods: {
 			navigator(id) {
 				this.$emit('gameItemClick', id)
 			}
@@ -28,6 +32,7 @@
 		display: flex; // 不换行
 		flex-wrap: wrap; // 到头换行
 		justify-content: space-between; // 靠左靠右排布
+
 
 		.game_item {
 			background: #fff;
@@ -43,24 +48,52 @@
 				margin: 15rpx auto;
 			}
 
-			.price {
+			.name {
 				color: $common-color;
+				padding: 0rpx 15rpx;
 				font-size: 32rpx;
-
-				text:nth-child(2) {
-					//第二个单独设置颜色
-					color: #ccc;
-					font-size: 28rpx;
-					margin-left: 18rpx;
-					text-decoration: line-through; //中分线
-				}
 			}
 
-			.name {
+			.classification {
+				width: 280rpx;
+				height: 50rpx;
+				display: flex;
+				justify-content: space-between;
+
 				font-size: 28rpx;
 				line-height: 50rpx; // 行高
-				padding-bottom: 15rpx;
-				padding-top: 10rpx;
+				padding: 15rpx;
+
+				text {
+					width: 56rpx;
+					height: 40rpx;
+					line-height: 40rpx;
+					font-size: 28rpx;
+					color: #666666;
+				}
+
+				.mana {
+					width: 88rpx;
+					height: 40rpx;
+					line-height: 40rpx;
+					display: flex;
+					align-items: center;
+
+					text {
+						width: 40rpx;
+						height: 40rpx;
+						line-height: 40rpx;
+						font-size: 28rpx;
+						color: #666666;
+					}
+
+					image {
+						width: 28rpx;
+						height: 28rpx;
+						line-height: 28rpx;
+						color: #999999;
+					}
+				}
 			}
 		}
 	}

@@ -1,7 +1,7 @@
 <template>
 	<view class="home">
 		<cu-custom bgColor="bg-white" :isBack="true">
-			<block slot="content">游戏动态</block>
+			<block slot="content">推荐</block>
 		</cu-custom>
 		
 		<dynamic-nav :navData="navData" :activeNavIndex="activeNavId" @dynamicNavReturn="dynamicNavReturn">

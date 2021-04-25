@@ -7,7 +7,7 @@
 
 		<view class="header_top">
 			<view class="game_icon">
-				<image src="../../static/image/rank/game_demo.png"></image>
+				<image :src="gameData.Icon"></image>
 			</view>
 			<view class="r_btn">
 				<view class="gz">
@@ -18,22 +18,22 @@
 		</view>
 
 		<view class="game_info">
-			<view class="game_name">梦幻魔法森林</view>
+			<view class="game_name">{{gameData.Name}}</view>
 			<view class="game_company">
-				<text>厂商：麟祥（北京）科技有限公司</text>
+				<text>厂商：{{gameData.Company}}</text>
 			</view>
 			<view class="game_mana">
 				<!-- 未选中的星星为镂空状态 -->
 				<view class="mana">
-					<uni-rate :readonly="true" size="16" color="#b0b0a4" activeColor="#14B9C8" :value="rate"
+					<uni-rate :readonly="true" size="16" color="#b0b0a4" activeColor="#14B9C8" :value="gameData.Mana"
 						:is-fill="false" />
 				</view>
 				<view>
-					<text>{{rate}}</text>
+					<text>{{gameData.Mana}}</text>
 				</view>
 			</view>
 			<view class="game_attention">
-				<text>{{attention}}人关注</text>
+				<text>{{gameData.Attention}}人关注</text>
 			</view>
 
 			<view class="down">
@@ -58,7 +58,7 @@
 			:bannerInfo="bannerInfo">
 		</game-detail>
 
-		<game-comment v-show="active == 1" :scoreInfo="scoreInfo" :commentInfo="commentInfo" :rate="rate">
+		<game-comment v-show="active == 1" :scoreInfo="scoreInfo" :commentInfo="commentInfo" :gameData="gameData">
 		</game-comment>
 
 		<game-community v-show="active == 2">
@@ -75,10 +75,8 @@
 	export default {
 		data() {
 			return {
-				rate: 4.5, // 星星有几颗
-				attention: 48848, // 关注数
+				gameData:{},
 				active: 0, // 单选框选中状态
-				gameData: '《秦时明月世界》，原“腾讯秦时明月手游”，是由玄机授权，根据国漫代表作品—《秦时明月》系列动漫改编而成的3DMMORPG手机游戏， 致力于呈现合纵连横、 百家争鸣、 文化碰撞、 华夏一统的大秦风貌， 打造一个生动、 可触碰的秦时世界。游戏对《 秦时明月》 系列动画的经典剧情、 场景、 人物、 音乐等高度还原， 形成丰富的游戏大世界， 融合了历史、 武侠、 奇幻等诸多元素；游戏在玩法上根据诸子百家进行职业定位， 装备、 武学、 伙伴等多样化成长； 提供丰富的单人和小团队的PVE、 PVP， 以及多人战场和休闲玩法；通过多层次的社交结构和丰富的社交手段， 让玩家形成有协作、 有配合、 轻松和谐的游戏社区。 ',
 				tabbar: [{ // 单选框元素
 						id: 0,
 						text: '详情',
@@ -199,6 +197,10 @@
 				]
 			}
 		},
+		onLoad(option) {
+			console.log(option.id)
+			this.getGameInfoById(option.id)
+		},
 		methods: {
 
 			async leftClickHandle(index, id) {
@@ -206,7 +208,18 @@
 				// const res = await this.$myRequest({
 				// 	url: '/api/getImages/' + id
 				// })
-			}
+			},
+
+			// 初始化游戏信息
+			async getGameInfoById(id) {
+				const res = await this.$myRequest({
+					url: '/game/getGameInfoById/' + id,
+					method: 'POST'
+				})
+				this.gameData = res.data
+				console.log(res.data)
+			},
+
 		},
 		components: {
 			"game-detail": gameDetail,
