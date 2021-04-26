@@ -1,26 +1,24 @@
 <template>
 	<view class="rank_data">
-		<scroll-view class="scroll_view" scroll-y="true" :style="{ height: scrollHeight + 'px' }"
-			:scroll-with-animation="true" :lower-threshold="tolower" @scroll="upScroll" @scrolltolower="getNextData"
-			:scroll-top="newScrollTop" :enable-flex="true">
-			<block v-for="(item, index) in gameData" :key="index">
+		<scroll-view class="scroll_view">
+			<block v-for="(item, index) in games" :key="index">
 				<view class="rank_item">
 					<view class="item_ft">
 						<view class="left">{{ index + 1 }}</view>
 						<view class="center">
-							<image :src="item.img_url" mode=""></image>
+							<image :src="item.Icon" mode=""></image>
 						</view>
 						<view class="right">
-							<view class="name">{{ item.name }}</view>
-							<view class="score icon icon-pingfendengjiRating4">9.4</view>
+							<view class="name">{{ item.Name }}</view>
+							<view class="score icon icon-pingfendengjiRating4">{{item.Mana}}</view>
 							<view class="label">
-								<view class="label_item">武侠</view>
-								<view class="label_item">动漫</view>
-								<view class="label_item">高画质</view>
+								<view class="label_item">{{item.GameTag}}</view>
+								<!-- <view class="label_item">动漫</view>
+								<view class="label_item">高画质</view> -->
 							</view>
 						</view>
 					</view>
-					<view class="item_bd">
+					<view class="item_bd" @click="goGameDetail(item.Id)">
 						<view class="info">详情</view>
 					</view>
 				</view>
@@ -31,178 +29,42 @@
 </template>
 
 <script>
-	import {
-		debounce,
-		throttle
-	} from '@/util/debounceThrottle.js';
 	import Loading from '@/components/loading/loading.vue';
-
-	let _this = this;
+	
 	export default {
 		name: 'rank-list',
 		props: {
 			newActive: {
-				type: Number,
-				default: 0
+				type: String,
+				default: "0"
+			},
+			games: {
+				type: Array,
+				default: e => []
 			}
 		},
 		components: {
 			Loading
 		},
-		mounted() {
-			let _this = this;
-			uni.$on('gotop', this.eventGoTop);
-			uni.getSystemInfo({
-				//调用uni-app接口获取屏幕高度
-				success(res) {
-					//成功回调函数
-					let wHeight = res.windowHeight; //windoHeight为窗口高度，主要使用的是这个
-					let titleH = uni.createSelectorQuery().select('.scroll_view'); //想要获取高度的元素名（class/id）
-					titleH
-						.boundingClientRect(data => {
-							_this.scrollHeight = wHeight - data.top; //计算高度：元素高度=窗口高度-元素距离顶部的距离（data.top）
-						})
-						.exec();
-				}
-			});
-		},
-		watch: {
-			newActive: function(newValue, oldValue) {
-				console.log('每个导航首次触发获取数据chufa');
-				this.page = 1;
-				this.getGameData();
-			}
-		},
-
 		data() {
 			return {
 				newActiceNavId: 0,
-				newScrollTop: 0,
-				oldScrollTop: 0,
-				tolower: 200, //距离200px的时候触底上拉加载
-				page: 0,
-				size: 3,
 				showLoading: false, //是否显示loading
 				loaded: false,
-				scrollHeight: 0,
-				gameData: [],
-				gamePushData: [{
-						id: 1,
-						name: '摩尔庄园1',
-						img_url: '/static/image/rank/game_demo.png'
-					},
-					{
-						id: 2,
-						name: '摩尔庄园2',
-						img_url: '/static/image/rank/game_demo.png'
-					},
-					{
-						id: 3,
-						name: '摩尔庄园',
-						img_url: '/static/image/rank/game_demo.png'
-					},
-					{
-						id: 1,
-						name: '摩尔庄园',
-						img_url: '/static/image/rank/game_demo.png'
-					},
-					{
-						id: 2,
-						name: '摩尔庄园',
-						img_url: '/static/image/rank/game_demo.png'
-					},
-					{
-						id: 3,
-						name: '摩尔庄园',
-						img_url: '/static/image/rank/game_demo.png'
-					},
-					{
-						id: 1,
-						name: '摩尔庄园',
-						img_url: '/static/image/rank/game_demo.png'
-					},
-					{
-						id: 2,
-						name: '摩尔庄园',
-						img_url: '/static/image/rank/game_demo.png'
-					},
-					{
-						id: 3,
-						name: '摩尔庄园',
-						img_url: '/static/image/rank/game_demo.png'
-					},
-					{
-						id: 1,
-						name: '摩尔庄园',
-						img_url: '/static/image/rank/game_demo.png'
-					}
-				]
+				gameData: []
 			};
 		},
-		onShow() {
-			console.log(this.page);
-			console.log(this.gameData);
-		},
 		methods: {
-			loadingReturnData(param) {},
-			upScroll(e) {
-				console.log(e);
-				this.oldScrollTop = e.detail.scrollTop;
-			},
-			handelNav(e) {
-				this.newActiceNavId = e.currentTarget.dataset.id;
-				this.commit();
-			},
-			getGameData() {
-				this.showLoading = true;
-				if (this.gameData.length >= 20) {
-					this.loaded = true;
-					return false;
-				}
-				if (this.page == 1) {
-					this.gameData = this.gamePushData;
-				} else {
-					this.gameData = this.gameData.concat(this.gamePushData);
-				}
-				setTimeout(() => {
-					this.showLoading = false;
-				}, 1000);
-
-				console.log('当前页码' + this.page);
-				console.log(this.gameData);
-				if (this.gamePushData.length > 0) {
-					this.page++;
-				}
-			},
-			getNextData: throttle(
-				function(e) {
-					this.getGameData();
-				},
-				1000,
-				true
-			),
-			eventGoTop(e) {
-				this.showLoading = false;
-				this.loaded = false;
-				this.newScrollTop = this.oldScrollTop;
-				console.log('接收的值' + e.data);
-				if (e.data) {
-					this.gameData = [];
-				}
-				//当视图渲染结束 重新设置为0
-				this.$nextTick(() => {
-					this.newScrollTop = 0;
-				});
-			},
 			commit() {
 				this.$emit('navReturnData', this.newActiceNavId);
+			},
+			// 跳转到游戏详情页面
+			goGameDetail(id) {
+				uni.navigateTo({
+					url: '/pages/game-detail/game-detail?id=' + id
+				})
 			}
-		},
-		onUnload() {
-			//页面卸载，卸载掉函数
-			uni.$off('gotop', this.eventGoTop);
-		},
-		created: function(e) {}
+		}
 	};
 </script>
 

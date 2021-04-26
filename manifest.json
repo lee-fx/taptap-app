@@ -18,7 +18,8 @@
         },
         /* 模块配置 */
         "modules" : {
-            "Maps" : {}
+            "Maps" : {},
+            "VideoPlayer" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -112,6 +113,9 @@
         },
         "devServer" : {
             "https" : false
+        },
+        "sdkConfigs" : {
+            "maps" : {}
         }
     }
 }

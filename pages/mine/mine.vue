@@ -1,5 +1,5 @@
 <template>
-	<view class="home">
+	<view class="home_zm">
 		<cu-custom bgColor="bg-cyan" :isBack="true">
 			<block slot="content">我的</block>
 		</cu-custom>
@@ -57,9 +57,16 @@
 	};
 </script>
 
-<style lang="scss">	
-	.home {
-		background: #fcfcfc;
+<style lang="scss">
+	.home_zm {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100vh;
+		z-index: 98;
+		background-color: rgba(0, 0, 0, 0.4);
+		background: #FFFFFF;
 	}
 
 	.main {
@@ -178,7 +185,7 @@
 	.back_gif {
 		position: absolute;
 		left: 30vw;
-		bottom: 0;
+		bottom: 100upx;
 		width: 68vw;
 		height: 32vh;
 	}

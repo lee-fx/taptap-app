@@ -7,7 +7,7 @@
 		<view class="swiper">
 			<swiper indicator-dots circular autoplay interval="5000" indicator-active-color="#14B9C8"
 				indicator-color="#F0F8FF">
-				<swiper-item v-for="item in swipers" :key=item.id>
+				<swiper-item v-for="item in swipers" :key=item.id @click="goGameDetail(item.GlobalSupplement)">
 					<image :src="item.GlobalValue"></image>
 				</swiper-item>
 			</swiper>
@@ -15,12 +15,12 @@
 
 		<!-- 导航区域 -->
 		<view class="nav_game">
-			<view class="nav_item" v-for="(item, index) in navs" :key="index" @click="navItemClick(item.path)">
+			<view class="nav_item" v-for="(item, index) in navs" :key="index" @click="navItemClick(item.GlobalSupplement)">
 				<!-- <view :class="item.icon"></view> -->
 				<view>
-					<image :src="item.icon"></image>
+					<image :src="item.GlobalValue"></image>
 				</view>
-				<text>{{item.title}}</text>
+				<text>{{item.Name}}</text>
 			</view>
 		</view>
 
@@ -53,121 +53,49 @@
 			return {
 				swipers: [],
 				games: [],
-				gameNum: 10,  // 每种游戏的数量（共用）
-				navs: [{
-						icon: '/static/image/navs/all.png',
-						title: '全部游戏',
-						path: '/pages/games/games'
-					}, {
-						icon: '/static/image/navs/auth.png',
-						title: '开发简介',
-						path: '/pages/contact/contact'
-					}, {
-						icon: '/static/image/navs/say.png',
-						title: '聊天语音',
-						path: '/pages/community/community'
-					},
-					{
-						icon: '/static/image/navs/video.png',
-						title: '影视大全',
-						path: '/pages/video/video'
-					},
-					{
-						icon: '/static/image/navs/storage.png',
-						title: '相册存储',
-						path: '/pages/games/games'
-					}
-				],
-				newGames: {
-					type: 1,
-					title: '新游',
-					data: [{
-						id: 1,
-						icon: '/static/image/icon/dao.png',
-						name: '上古卷轴：刀锋4569869'
-					}, {
-						id: 2,
-						icon: '/static/image/icon/dao.png',
-						name: '救世奇asdfwe'
-					}, {
-						id: 3,
-						icon: '/static/image/icon/dao.png',
-						name: '英雄救世'
-					}]
-				},
-				hotGames: {
-					type: 2,
-					title: '热游',
-					data: [{
-						id: 1,
-						icon: '/static/image/icon/dao.png',
-						name: '上古卷轴：刀锋4569869'
-					}, {
-						id: 2,
-						icon: '/static/image/icon/dao.png',
-						name: '救世奇asdfwe'
-					}, {
-						id: 3,
-						icon: '/static/image/icon/dao.png',
-						name: '英雄救世'
-					}]
-				},
-				goodGames: {
-					type: 3,
-					title: '优质推荐',
-					data: [{
-						id: 1,
-						icon: '/static/image/icon/dao.png',
-						name: '上古卷轴：刀锋4569869'
-					}, {
-						id: 2,
-						icon: '/static/image/icon/dao.png',
-						name: '救世奇asdfwe'
-					}, {
-						id: 3,
-						icon: '/static/image/icon/dao.png',
-						name: '英雄救世'
-					}]
-				},
-				novelGames: {
-					type: 4,
-					title: '尝鲜特供',
-					data: [{
-						id: 1,
-						icon: '/static/image/icon/dao.png',
-						name: '上古卷轴：刀锋4569869'
-					}, {
-						id: 2,
-						icon: '/static/image/icon/dao.png',
-						name: '救世奇asdfwe'
-					}, {
-						id: 3,
-						icon: '/static/image/icon/dao.png',
-						name: '英雄救世'
-					}]
-				}
+				gameNum: 10, // 每种游戏的数量（共用）
+				navs: [],
+				newGames: {},
+				hotGames: {},
+				goodGames: {},
+				novelGames: {}
 			}
 		},
 		onLoad() {
 			this.getSwipers()
+			this.getNavs()
 			this.getTypeGames()
 		},
 		methods: {
 			// 获取轮播图的数据
 			async getSwipers() {
 				const res = await this.$myRequest({
-					url: '/home/getSwipers',
+					url: '/home/getConfigs/GAME_SWIPER',
 					method: 'POST'
 				})
-				console.log(res.data);
+				console.log(res)
 				this.swipers = res.data
+			},
+			// 获取navs
+			async getNavs() {
+				const res = await this.$myRequest({
+					url: '/home/getConfigs/HOME_NAV',
+					method: 'POST'
+				})
+				console.log(res)
+				this.navs = res.data
 			},
 			// 获取热门游戏列表
 			async getTypeGames() {
 				const res = await this.$myRequest({
-					url: '/home/getTypeGames/' + this.gameNum
+					url: '/home/getTypeGames/' + this.gameNum,
+					method: 'POST'
 				})
-				this.games = res.data
+				// console.log(res.data['0']);
+				this.newGames = res.data['0']
+				this.hotGames = res.data['1']
+				this.goodGames = res.data['2']
+				this.novelGames = res.data['3']
 			},
 			// 导航点击处理函数
 			navItemClick(url) {
@@ -178,7 +106,7 @@
 			// 跳转到游戏详情页面
 			goGameDetail(id) {
 				uni.navigateTo({
-					url: '/pages/game-detail/game-detail?id' + id
+					url: '/pages/game-detail/game-detail?id=' + id
 				})
 			}
 		},
@@ -234,7 +162,7 @@
 				image {
 					width: 68rpx;
 					height: 68rpx;
-					background: #e5e5e5;
+					background: #f1f1f1;
 					border-radius: 60rpx; // 圆角
 					line-height: 88rpx;
 				}

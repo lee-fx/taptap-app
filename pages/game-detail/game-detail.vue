@@ -75,7 +75,6 @@
 	export default {
 		data() {
 			return {
-				gameData:{},
 				active: 0, // 单选框选中状态
 				tabbar: [{ // 单选框元素
 						id: 0,
@@ -93,6 +92,7 @@
 						url: 'aaaa/bbbb.html'
 					}
 				],
+				gameData: {},
 				allInfo: [{
 						title: '文件大小',
 						val: '518.93'
@@ -198,6 +198,9 @@
 			}
 		},
 		onLoad(option) {
+			if (!option.id) {
+				option.id = 1
+			}
 			console.log(option.id)
 			this.getGameInfoById(option.id)
 		},
@@ -209,15 +212,20 @@
 				// 	url: '/api/getImages/' + id
 				// })
 			},
-
+			// 跳转到游戏详情页面
+			goGameDetail(id) {
+				uni.navigateTo({
+					url: '/pages/game-detail/game-detail?id=' + id
+				})
+			},
 			// 初始化游戏信息
 			async getGameInfoById(id) {
 				const res = await this.$myRequest({
 					url: '/game/getGameInfoById/' + id,
 					method: 'POST'
 				})
-				this.gameData = res.data
 				console.log(res.data)
+				this.gameData = res.data
 			},
 
 		},

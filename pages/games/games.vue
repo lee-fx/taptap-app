@@ -6,7 +6,7 @@
 				<block slot="content">游戏中心</block>
 			</cu-custom>
 			<games-list :games="games" @gameItemClick="goGameDetail"> </games-list>
-			<view class="is_over" v-if="flag">-----我是有底线的-----</view>
+			<view class="is_over" v-if="flag"> 没有更多了 </view>
 		</view>
 	</view>
 </template>
@@ -17,24 +17,28 @@
 		data() {
 			return {
 				pageIndex: 1,
-				to: 8,
+				to: 6,
 				games: [],
-				flag: false
+				flag: false,
+				gameType: 0
 			}
 		},
-		onLoad() {
-			this.getAllGames()
+		onLoad(option) {
+			if (!option.type) {
+				option.type = 0
+			} 
+			this.gameType = option.type
+			this.getAllGames(option.type)
 		},
 		methods: {
 			// 获取所有游戏列表
-			async getAllGames(callBack) {
+			async getAllGames(type) {
 				const res = await this.$myRequest({
-					url: '/game/getAllGames/' + this.pageIndex + '/' + this.to,
+					url: '/game/getAllGames/' + type + '/' + this.pageIndex + '/' + this.to,
 					method: 'POST'
 				})
 				// console.log(res.data)
 				this.games = [...this.games, ...res.data]
-				callBack && callBack()
 			},
 			// 跳转到游戏详情页面
 			goGameDetail(id) {
@@ -53,7 +57,7 @@
 			}
 			console.log('触底');
 			this.pageIndex++
-			this.getAllGames()
+			this.getAllGames(this.gameType)
 		},
 		onPullDownRefresh() {
 			console.log('下拉刷新了');
@@ -61,9 +65,8 @@
 			this.games = []
 			this.flag = false
 			setTimeout(() => {
-				this.getHotGames(() => {
-					uni.stopPullDownRefresh()
-				})
+				this.getAllGames(this.gameType)
+				uni.stopPullDownRefresh()
 			}, 500)
 		}
 	}

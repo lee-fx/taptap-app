@@ -5,24 +5,23 @@
 				<view class="bar">
 				</view>
 				<view class="text">
-					{{games.title}}
+					{{games.Title}}
 				</view>
 			</view>
-
-			<view class="title_right">
+			<view class="title_right" @click="goGames(games.Type)">
 				更多
 			</view>
 		</view>
 		<view></view>
 		<scroll-view class="content" scroll-x scroll-with-animation>
-			<view class="content_item" v-for="(item, index) in games.data" :key="index">
-				<image :src="item.icon" mode="aspectFit"></image>
+			<view class="content_item" v-for="(item, index) in games.GameList" :key="index" @click="goGameDetail(item.Id)">
+				<image :src="item.Icon" mode="aspectFit"></image>
 				<view class="content_text">
-					{{item.name}}
+					{{item.Name}}
 				</view>
 			</view>
 		</scroll-view>
-		
+
 	</view>
 
 </template>
@@ -33,20 +32,19 @@
 			games: {
 				type: Object,
 				default: e => {}
-			},
-			allInfo: {
-				type: Array,
-				default: e => {}
-			}
-		},
-		data() {
-			return {
-				isInfo: false // 展开与收起
 			}
 		},
 		methods: {
-			showInfo() {
-				this.isInfo = !this.isInfo
+			// 跳转到游戏详情页面
+			goGameDetail(id) {
+				uni.navigateTo({ 
+					url: '/pages/game-detail/game-detail?id=' + id
+				})
+			},
+			goGames(type) {
+				uni.navigateTo({
+					url: '/pages/games/games?type=' + type
+				})
 			}
 		}
 	}

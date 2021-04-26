@@ -1,8 +1,8 @@
 <template>
 	<view class="nav">
 		<block v-for="(item, index) in navData" :key="index">
-			<view class="nav_item" :class="[{ active: item.id == newActiceNavId }]" @tap="handelNav" :data-id="item.id">
-				{{ item.name }}
+			<view class="nav_item" :class="[{ active: item.GlobalValue == newActiceNavId }]" @tap="clickNav" :data-id="item.GlobalValue">
+				{{ item.Name }} 
 			</view>
 		</block>
 	</view>
@@ -14,32 +14,20 @@
 		props: {
 			navData: {
 				type: Array,
-				default: e => {}
+				default: e => []
 			},
 			activeNavId: {
-				type: Number,
-				default: 0
-			}
-		},
-		mounted() {
-			if (this.activeNavId == 0) {
-				this.newActiceNavId = this.navData[0].id;
-				this.commit();
-			}
-		},
-		watch: {
-			activeNavId: (newValue, oldValue) => {
-				console.log('导航chufa');
+				type: String,
+				default: "1"
 			}
 		},
 		data() {
 			return {
-				newActiceNavId: 0
+				newActiceNavId: "1"
 			};
 		},
-
 		methods: {
-			handelNav(e) {
+			clickNav(e) {
 				this.newActiceNavId = e.currentTarget.dataset.id;
 				this.commit();
 			},
