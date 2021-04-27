@@ -4,7 +4,16 @@
 			<image :src="item.Icon"></image>
 			<view class="name">{{item.Name}}</view>
 			<view class="classification">
-				<text>{{item.GameTag}}</text>
+				<view class="tag" v-if="item.GameTag">
+					<view v-for="(item, index) in item.GameTag" :key="index">
+						<view>{{item.TagName}}</view>
+					</view>
+				</view>
+				<view v-else class="tag">
+					<view>
+						未知
+					</view>
+				</view>
 				<view class="mana">
 					<text>{{item.Mana}}</text>
 					<image src="../../../static/image/icon/mana_333.png"></image>
@@ -64,16 +73,20 @@
 				line-height: 50rpx; // 行高
 				padding: 15rpx;
 
-				text {
-					width: 56rpx;
+				.tag {
+					width: 266rpx;
 					height: 40rpx;
 					line-height: 40rpx;
-					font-size: 28rpx;
-					color: #666666;
+					display: flex;
+					font-size: 24rpx;
+					color: #868c92;
+					view {
+						padding-right: 4rpx;
+					}
 				}
 
 				.mana {
-					width: 88rpx;
+					width: 60rpx;
 					height: 40rpx;
 					line-height: 40rpx;
 					display: flex;

@@ -55,12 +55,12 @@
 				this.flag = true
 				return
 			}
-			console.log('触底');
+			// console.log('触底');
 			this.pageIndex++
 			this.getAllGames(this.gameType)
 		},
 		onPullDownRefresh() {
-			console.log('下拉刷新了');
+			// console.log('下拉刷新了');
 			this.pageIndex = 1
 			this.games = []
 			this.flag = false

@@ -1,8 +1,8 @@
 const BASE_URL = 'http://192.168.10.31:8000'
 export const myRequest = (options) => {
-	return new Promise((resolve,reject) => {
+	return new Promise((resolve, reject) => {
 		uni.request({
-			url: BASE_URL+options.url,
+			url: BASE_URL + options.url,
 			method: options.method || 'GET',
 			data: options.data || {},
 			success: (res) => {

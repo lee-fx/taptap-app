@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
 	<scroll-view class="dynamic scroll_view" @scroll="upScroll" :scroll-y="true" :style="{ height: scrollHeight + 'px' }">
 		<block v-for="(item, index) in dynamicData" :key="index">
 			<view class="dynamic_item" :scroll-into-view="'content_' + index">
@@ -373,3 +373,4 @@ export default {
 	}
 }
 </style>
+ -->

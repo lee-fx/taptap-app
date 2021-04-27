@@ -21,6 +21,12 @@
 				default: "1"
 			}
 		},
+		onReady() {
+			//打开加载动画
+			this.$refs.loading
+			//关闭加载动画
+			// this.$refs.loading.close()
+		},
 		data() {
 			return {
 				newActiceNavId: "1"
@@ -28,11 +34,11 @@
 		},
 		methods: {
 			clickNav(e) {
-				this.newActiceNavId = e.currentTarget.dataset.id;
-				this.commit();
+				this.newActiceNavId = e.currentTarget.dataset.id
+				this.commit()
 			},
 			commit() {
-				this.$emit('navReturnData', this.newActiceNavId);
+				this.$emit('navReturnData', this.newActiceNavId)
 			}
 		},
 

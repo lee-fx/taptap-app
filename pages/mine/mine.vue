@@ -33,7 +33,7 @@
 				</view>
 			</view>
 		</view>
-		<image src="/static/image/icon/bolang3.gif" class="back_gif"></image>
+		<image src="/static/image/icon/boy.gif" class="back_gif"></image>
 	</view>
 </template>
 

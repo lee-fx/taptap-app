@@ -10,14 +10,14 @@
 					<view class="content_ft">
 						<view class="title">
 							<view class="name">{{ item.name }}</view>
-							<view class="btn">预约</view>
+							<view class="btn">关注</view>
 						</view>
 						<view class="desc">{{ item.desc }}</view>
 					</view>
 					<view class="content_bd">
-						<view class="logo">TapTap</view>
+						<view class="logo">score mana</view>
 						<view class="score">{{ item.score }}</view>
-						<view class="more icon icon-gengduo_huaban"></view>
+						<!-- <view class="more icon icon-gengduo_huaban"></view> -->
 					</view>
 				</view>
 			</view>
@@ -43,10 +43,9 @@ export default {
 			newRecommondData:[]
 		};
 	},
-
 	mounted() {
 		this.newRecommondData = this.recommondData
-		console.log(this.recommondData);
+		// console.log(this.recommondData);
 	},
 	watch: {},
 
@@ -78,7 +77,7 @@ export default {
 
 	.recommond_item {
 		width: 686upx;
-		height: 586upx;
+		height: 528upx;
 		box-shadow: 0 40upx 40upx rgba(0, 0, 0, 0.1);
 		margin: 0 auto;
 		margin-top: 40upx;
@@ -148,7 +147,7 @@ export default {
 			padding-right: 10upx;
 			box-sizing: border-box;
 			.logo {
-				width: 144upx;
+				width: 186upx;
 				@include height(64upx);
 				color: #15c5ce;
 				font-weight: bolder;

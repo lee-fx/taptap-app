@@ -201,7 +201,7 @@
 			if (!option.id) {
 				option.id = 1
 			}
-			console.log(option.id)
+			// console.log(option.id)
 			this.getGameInfoById(option.id)
 		},
 		methods: {
@@ -224,7 +224,7 @@
 					url: '/game/getGameInfoById/' + id,
 					method: 'POST'
 				})
-				console.log(res.data)
+				// console.log(res.data)
 				this.gameData = res.data
 			},
 

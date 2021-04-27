@@ -1,7 +1,7 @@
 <template>
 	<view class="nav">
 		<block v-for="(item, index) in navData" :key="index">
-			<view class="nav_item" :class="[{ active: item.id == newActiceNavId }]" @tap="handelNav" :data-id="item.id">{{ item.name }}</view>
+			<view class="nav_item" :class="[{ active: item.id == activeNavId }]" @tap="handelNav" :data-id="item.id">{{ item.name }}</view>
 		</block>
 		<view class="nav_right">
 			<view class="box_radius remind icon icon-sousuo"></view>
@@ -23,25 +23,27 @@ export default {
 			default: 0
 		}
 	},
-	mounted() {
-		if (this.activeNavId == 0) {
-			// this.newActiceNavId = this.navData[0].id;
-			this.newActiceNavId = 2;
-			this.commit();
+	onReachBottom() {
+		if (this.games.length > 11) {
+			this.flag = true
+			return
 		}
+		// console.log('触底');
+		this.pageIndex++
+		this.getAllGames(this.gameType)
 	},
 	data() {
 		return {
-			newActiceNavId: 0
+			newActiveNavId: 0,
+			pageIndex: 1,
+			to: 6
 		};
 	},
-
 	watch: {
 		activeNavId: (newValue, oldValue) => {
-			console.log('chufa');
+			// console.log('chufa');
 		}
 	},
-
 	methods: {
 		handelNav(e) {
 			this.newActiceNavId = e.currentTarget.dataset.id;

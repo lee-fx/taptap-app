@@ -4,9 +4,11 @@
 			<block slot="content">推荐</block>
 		</cu-custom>
 		
-		<dynamic-nav :navData="navData" :activeNavIndex="activeNavId" @dynamicNavReturn="dynamicNavReturn">
+		<dynamic-nav :navData="navData" :activeNavId="activeNavId" @dynamicNavReturn="dynamicNavReturn">
 		</dynamic-nav>
-		<dynamic-list v-show="activeNavId == 1" :dynamicData="dynamicData"></dynamic-list>
+		
+		<!-- <dynamic-list v-show="activeNavId == 1" :dynamicData="dynamicData"></dynamic-list> -->
+		
 		<recommond-list v-show="activeNavId == 2" :recommondData="recommondData"></recommond-list>
 		
 	</view>
@@ -14,15 +16,17 @@
 
 <script>
 	import DynamicNav from '@/pages/components/Dynamic/dynamic-nav.vue';
-	import DynamicList from '@/pages/components/Dynamic/dynamic-list.vue';
+	// import DynamicList from '@/pages/components/Dynamic/dynamic-list.vue';
 	import RecommondList from '@/pages/components/Dynamic/recommond-list.vue';
 	export default {
 		data() {
 			return {
-				activeNavId: 0,
+				activeNavId: 2,
+				pageIndex: 1,
+				to: 6,
 				navData: [{
 						id: 1,
-						name: '关注的游戏'
+						name: '热评'
 					},
 					{
 						id: 2,
@@ -34,21 +38,21 @@
 						name: '剑灵1', //网格图片
 						desc: 'RPG · MMORPG · 高画质',
 						score: '7.6',
-						img_url: '/static/image/dynamic/demo5.jpg',
+						img_url: '/static/image/dynamic/demo1.jpg',
 						show:false
 					},
 					{
 						name: '剑灵2', //网格图片
 						desc: 'RPG · MMORPG · 高画质',
 						score: '7.6',
-						img_url: '/static/image/dynamic/demo5.jpg',
+						img_url: '/static/image/dynamic/demo2.jpg',
 						show:false
 					},
 					{
 						name: '剑灵2', //网格图片
 						desc: 'RPG · MMORPG · 高画质',
 						score: '7.6',
-						img_url: '/static/image/dynamic/demo5.jpg',
+						img_url: '/static/image/dynamic/demo4.jpg',
 						show:false
 					},
 				],
@@ -78,12 +82,16 @@
 						type: 5, //纯文字
 						like_num: 109
 					}
-				]
-			};
+				],
+				recommondData1: []
+			}
+		},
+		onLoad() {
+			this.getAllGames(1)
 		},
 		components: {
 			DynamicNav,
-			DynamicList,
+			// DynamicList,
 			RecommondList
 		},
 		methods: {
@@ -92,12 +100,17 @@
 				console.log(param);
 				this.activeNavId = param;
 				this.newActive = param;
-				this.scrollTop = 0;
-				//
-				uni.$emit('gotop', {
-					data: 0
-				});
-				console.log('改变后的值' + this.newActive);
+				// console.log('改变后的值' + this.newActive);
+			},
+			
+			// 推荐游戏列表
+			async getAllGames(type) {
+				const res = await this.$myRequest({
+					url: '/game/getAllGames/' + type + '/' + this.pageIndex + '/' + this.to,
+					method: 'POST'
+				})
+				console.log(res.data)
+				this.recommondData = [...this.recommondData, ...res.data]
 			},
 		}
 	};

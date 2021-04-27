@@ -1,10 +1,10 @@
 <template>
 	<view class="contact">
-		<cu-custom bgColor="bg-cyan" :isBack="true">
+		<cu-custom bgColor="bg-teal" :isBack="true">
 			<block slot="backText">返回</block>
-			<block slot="content">开发人员</block>
+			<block slot="content">开发组</block>
 		</cu-custom>
-		<image class="img" src="../../static/image/swipers/lb2.jpg"></image>
+		<image class="img" src="/static/image/swipers/man.gif"></image>
 		<view class="info">
 			<view @click="phoneCall">联系电话：15718815231（点击拨打）</view>
 			<view>开发人员：lhy、lfxpupa</view>
@@ -23,9 +23,9 @@
 				markers: [{
 					longitude: 116.497327,
 					latitude: 39.991244,
-					iconPath: '../../static/image/icon/dao.png',
-					width: 20,
-					height: 20
+					iconPath: '/static/image/icon/zb.png',
+					width: 25,
+					height: 25
 				}]
 			}
 		},
@@ -43,7 +43,7 @@
 	.contact {
 		.img {
 			width: 750rpx;
-			height: 320rpx;
+			height: 350rpx;
 		}
 
 		.info {

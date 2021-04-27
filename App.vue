@@ -1,5 +1,5 @@
 <script>
-		import Vue from 'vue'
+	import Vue from 'vue'
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
@@ -13,14 +13,14 @@
 						Vue.prototype.CustomBar = e.statusBarHeight + 45;
 					};
 					// #endif
-			
+
 					// #ifdef MP-WEIXIN
 					Vue.prototype.StatusBar = e.statusBarHeight;
 					let custom = wx.getMenuButtonBoundingClientRect();
 					Vue.prototype.Custom = custom;
 					Vue.prototype.CustomBar = custom.bottom + custom.top - e.statusBarHeight;
 					// #endif		
-			
+
 					// #ifdef MP-ALIPAY
 					Vue.prototype.StatusBar = e.statusBarHeight;
 					Vue.prototype.CustomBar = e.statusBarHeight + e.titleBarHeight;
@@ -38,7 +38,6 @@
 </script>
 
 <style>
-
 	@font-face {
 		font-family: "iconfont";
 		src: url('~@/static/font/iconfont.eot?t=1616578713175');
@@ -140,54 +139,53 @@
 	.icon-038-skull:before {
 		content: "\e6f6";
 	}
-	
-	@font-face {font-family: "icon";
-	  src: url('~@/static/font/icon/iconfont.eot?t=1616835280770'); /* IE9 */
-	  src: url('~@/static/font/icon/iconfont.eot?t=1616835280770#iefix') format('embedded-opentype'), /* IE6-IE8 */
-	  url('~@/static/font/icon/iconfont.woff?t=1616835280770') format('woff'),
-	  url('~@/static/font/icon/iconfont.ttf?t=1616835280770') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
-	  url('~@/static/font/icon/iconfont.svg?t=1616835280770#iconfont') format('svg'); /* iOS 4.1- */
+
+	@font-face {
+		font-family: "icon";
+		src: url('~@/static/font/icon/iconfont.eot?t=1616835280770');
+		/* IE9 */
+		src: url('~@/static/font/icon/iconfont.eot?t=1616835280770#iefix') format('embedded-opentype'),
+			/* IE6-IE8 */
+			url('~@/static/font/icon/iconfont.woff?t=1616835280770') format('woff'),
+			url('~@/static/font/icon/iconfont.ttf?t=1616835280770') format('truetype'),
+			/* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+			url('~@/static/font/icon/iconfont.svg?t=1616835280770#iconfont') format('svg');
+		/* iOS 4.1- */
 	}
-	
+
 	.icon {
-	  font-family: "icon" !important;
-	  font-size: 32upx;
-	  font-style: normal;
-	  -webkit-font-smoothing: antialiased;
-	  -moz-osx-font-smoothing: grayscale;
+		font-family: "icon" !important;
+		font-size: 32upx;
+		font-style: normal;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
 	}
-	
+
 	.icon-tixing:before {
-	  content: "\e614";
+		content: "\e614";
 	}
-	
+
 	.icon-pingfendengjiRating4:before {
-	  content: "\e6b3";
+		content: "\e6b3";
 	}
-	
+
 	.icon-sousuo:before {
-	  content: "\e603";
+		content: "\e603";
 	}
+
 	.icon-dianzan:before {
-	  content: "\e6a7";
+		content: "\e6a7";
 	}
+
 	.icon-pinglun:before {
-	  content: "\e61e";
+		content: "\e61e";
 	}
+
 	.icon-gengduo_huaban:before {
-	  content: "\e62f";
+		content: "\e62f";
 	}
 
 	.icon-fenxiang:before {
-	  content: "\e72f";
+		content: "\e72f";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 </style>

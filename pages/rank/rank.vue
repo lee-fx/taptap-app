@@ -4,22 +4,28 @@
 			<block slot="content">排行</block>
 		</cu-custom>
 		<view class="head_top">
-			<view class="search icon icon-sousuo"><text class="search_text" space="nbsp">&nbsp;&nbsp;&nbsp;&nbsp;
-					搜索</text></view>
-			<!-- <view class="header icon icon-tixing"></view> -->
+			<view class="search icon icon-sousuo">
+				<text class="search_text" space="nbsp">&nbsp;&nbsp;&nbsp;&nbsp;
+					搜索
+				</text>
+			</view>
+			<view class="header icon icon-tixing"></view>
 			<view class="header">
 				<image src="/static/image/icon/header.png" mode=""></image>
 			</view>
 		</view>
 		<view class="top">
 			<image src="/static/image/rank/rank_head.png" class="head_img"></image>
-			<view class="head_title">Top 20</view>
+			<view class="head_title">Top Ten</view>
 			<view class="head_desc">排行榜</view>
 		</view>
 
 		<rank-nav :navData="navData" :activeNavId="activeNavId" @navReturnData="navReturnData"></rank-nav>
+
+		<w-loading text="加载中.." mask="true" click="false" ref="loading"></w-loading>
+
 		<rank-list :games="games" :newActive="newActive"></rank-list>
-		<!-- <view class="is_over" v-if="flag"> 没有更多了 </view> -->
+		<view class="is_over" v-if="flag"> 没有更多了 </view>
 	</view>
 </template>
 
@@ -49,13 +55,20 @@
 			RankList
 		},
 		onReachBottom() {
-			if (this.games.length < 5) {
+			if (this.games.length >= 10) {
+				console.log(this.games.length)
 				this.flag = true
 				return
 			}
 			this.pageIndex++
 			this.tag = true
 			this.getAllGames()
+		},
+		onReady() {
+			//打开加载动画
+			this.$refs.loading
+			//关闭加载动画
+			// this.$refs.loading.close()
 		},
 		onLoad() {
 			this.getNavs()
@@ -79,23 +92,32 @@
 				if (this.newActive != param) {
 					this.tag = false
 				}
-				this.getAllGames()
-				this.newActive = param;
+
+				this.$refs.loading.open()
+				setTimeout(() => {
+					this.getAllGames()
+					this.$refs.loading.close()
+				}, 500)
+
+				this.newActive = param
 			},
 
 			// 获取所有游戏列表
 			async getAllGames() {
 				// console.log(sign)
 				var type = this.activeNavId
-				
+
 				if (!this.tag) {
 					this.pageIndex = 1
 				}
+
 				const res = await this.$myRequest({
 					url: '/game/getAllGames/' + type + '/' + this.pageIndex + '/' + this.to,
 					method: 'POST'
 				})
+				// console.log(res.data)
 				if (!res) {
+					// this.$refs.loading.open()
 					this.flag = true
 					return
 				}
@@ -211,11 +233,11 @@
 	}
 
 	.is_over {
-		width: 750rpx;
-		height: 75rpx;
-		line-height: 75rpx;
+		width: 750upx;
+		height: 75upx;
+		line-height: 75upx;
 		text-align: center;
 		/* background: #FFFFFF; */
-		font-size: 32rpx;
+		font-size: 32upx;
 	}
 </style>

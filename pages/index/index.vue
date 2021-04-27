@@ -73,7 +73,7 @@
 					url: '/home/getConfigs/GAME_SWIPER',
 					method: 'POST'
 				})
-				console.log(res)
+				// console.log(res)
 				this.swipers = res.data
 			},
 			// 获取navs
@@ -82,7 +82,7 @@
 					url: '/home/getConfigs/HOME_NAV',
 					method: 'POST'
 				})
-				console.log(res)
+				// console.log(res)
 				this.navs = res.data
 			},
 			// 获取热门游戏列表

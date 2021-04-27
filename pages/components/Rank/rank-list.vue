@@ -11,10 +11,15 @@
 						<view class="right">
 							<view class="name">{{ item.Name }}</view>
 							<view class="score icon icon-pingfendengjiRating4">{{item.Mana}}</view>
-							<view class="label">
-								<view class="label_item">{{item.GameTag}}</view>
-								<!-- <view class="label_item">动漫</view>
-								<view class="label_item">高画质</view> -->
+							<view class="label" v-if="item.GameTag">
+								<view v-for="(item, index) in item.GameTag" :key="index">
+									<view class="label_item">{{item.TagName}}</view>
+								</view>
+							</view>
+							<view v-else class="label">
+								<view class="label_item">
+									未知
+								</view>
 							</view>
 						</view>
 					</view>
@@ -23,14 +28,11 @@
 					</view>
 				</view>
 			</block>
-			<Loading :showLoading="showLoading" :loaded="loaded"></Loading>
 		</scroll-view>
 	</view>
 </template>
 
 <script>
-	import Loading from '@/components/loading/loading.vue';
-	
 	export default {
 		name: 'rank-list',
 		props: {
@@ -43,14 +45,9 @@
 				default: e => []
 			}
 		},
-		components: {
-			Loading
-		},
 		data() {
 			return {
 				newActiceNavId: 0,
-				showLoading: false, //是否显示loading
-				loaded: false,
 				gameData: []
 			};
 		},
