@@ -3,14 +3,15 @@
 		<cu-custom bgColor="bg-white" :isBack="true">
 			<block slot="content">推荐</block>
 		</cu-custom>
-		
+
 		<dynamic-nav :navData="navData" :activeNavId="activeNavId" @dynamicNavReturn="dynamicNavReturn">
 		</dynamic-nav>
-		
+
 		<!-- <dynamic-list v-show="activeNavId == 1" :dynamicData="dynamicData"></dynamic-list> -->
-		
+		<view v-show="activeNavId == 1"> </view>
+
 		<recommond-list v-show="activeNavId == 2" :recommondData="recommondData"></recommond-list>
-		
+
 	</view>
 </template>
 
@@ -24,42 +25,34 @@
 				activeNavId: 2,
 				pageIndex: 1,
 				to: 6,
-				navData: [{
-						id: 1,
-						name: '热评'
-					},
-					{
-						id: 2,
-						name: '推荐'
-					},
-				],
-				recommondData: [
-					{
+				navData: [],
+				recommondData: [{
 						name: '剑灵1', //网格图片
 						desc: 'RPG · MMORPG · 高画质',
 						score: '7.6',
 						img_url: '/static/image/dynamic/demo1.jpg',
-						show:false
+						show: false
 					},
 					{
 						name: '剑灵2', //网格图片
 						desc: 'RPG · MMORPG · 高画质',
 						score: '7.6',
 						img_url: '/static/image/dynamic/demo2.jpg',
-						show:false
+						show: false
 					},
 					{
-						name: '剑灵2', //网格图片
+						name: '剑灵3', //网格图片
 						desc: 'RPG · MMORPG · 高画质',
 						score: '7.6',
 						img_url: '/static/image/dynamic/demo4.jpg',
-						show:false
+						show: false
 					},
 				],
-				dynamicData: [
-					{
+				dynamicData: [{
 						type: 1, //网格图片
-						img_url: ['/static/image/dynamic/demo1.jpg', '/static/image/dynamic/demo1.jpg', '/static/image/dynamic/demo1.jpg'],
+						img_url: ['/static/image/dynamic/demo1.jpg', '/static/image/dynamic/demo1.jpg',
+							'/static/image/dynamic/demo1.jpg'
+						],
 						like_num: 104
 					},
 					{
@@ -87,6 +80,7 @@
 			}
 		},
 		onLoad() {
+			this.getNavs()
 			this.getAllGames(1)
 		},
 		components: {
@@ -95,6 +89,17 @@
 			RecommondList
 		},
 		methods: {
+
+			// 获取navs
+			async getNavs() {
+				const res = await this.$myRequest({
+					url: '/home/getConfigs/RECOMMOND_NAV',
+					method: 'POST'
+				})
+				// console.log(res.data)
+				this.navData = res.data
+			},
+
 			//子组件返回响应
 			dynamicNavReturn(param) {
 				console.log(param);
@@ -102,7 +107,7 @@
 				this.newActive = param;
 				// console.log('改变后的值' + this.newActive);
 			},
-			
+
 			// 推荐游戏列表
 			async getAllGames(type) {
 				const res = await this.$myRequest({

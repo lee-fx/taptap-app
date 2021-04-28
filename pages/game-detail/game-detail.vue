@@ -39,7 +39,14 @@
 			<view class="down">
 				<view class="btn">
 					<image src="../../static/image/icon/android.png"></image>
-					<text>下载</text>
+
+					<!-- #ifdef APP-PLUS-->
+					<text class="table-btn" @click="dow()">下载</text>
+					<!-- #endif -->
+
+					<!-- #ifdef H5 -->
+					<a class="table-btn" href="http://47.94.227.188:3344/apk/__UNI__B634BE4_0428141950.apk">下载</a>
+					<!-- #endif -->
 				</view>
 			</view>
 		</view>
@@ -71,6 +78,7 @@
 	import gameDetail from '@/pages/components/GameDetail/game-detail.vue'
 	import gameComment from '@/pages/components/GameDetail/game-comment.vue'
 	import gameCommunity from '@/pages/components/GameDetail/game-community.vue'
+	import popup from '@/components/popup/popup.vue'
 
 	export default {
 		data() {
@@ -204,6 +212,12 @@
 			// console.log(option.id)
 			this.getGameInfoById(option.id)
 		},
+		onReady() {
+			//打开加载动画
+			this.$refs.loading
+			//关闭加载动画
+			// this.$refs.loading.close()
+		},
 		methods: {
 
 			async leftClickHandle(index, id) {
@@ -228,16 +242,73 @@
 				this.gameData = res.data
 			},
 
+			dow() {
+				var dtask = plus.downloader.createDownload(
+					"http://47.94.227.188:3344/apk/__UNI__B634BE4_0428141950.apk", {},
+					function(d, status) {
+						plus.nativeUI.closeWaiting();
+						// this.$refs.loading.open()
+						// 下载完成
+						if (status == 200) {
+							// this.$refs.loading.close()
+							console.log("Download success: " + d.filename);
+							var fileSaveUrl = plus.io.convertLocalFileSystemURL(d.filename);
+							plus.runtime.openFile(d.filename); //选择软件打开文件
+						} else {
+							console.log("Download failed: " + status);
+						}
+					});
+
+				dtask.start();
+				var prg = 0;
+				var showLoading = plus.nativeUI.showWaiting("正在下载"); //创建一个showWaiting对象 
+				dtask.addEventListener('statechanged', (task) => {
+					if (!dtask) {
+						return;
+					}
+					switch (task.state) {
+						case 1:
+							showLoading.setTitle("正在下载");
+							break;
+						case 2:
+							showLoading.setTitle("已连接到服务器");
+							break;
+						case 3:
+							prg = parseInt(parseFloat(task.downloadedSize) / parseFloat(task.totalSize) * 100);
+							if (prg % 10 == 0) { // 让百分比 10% 增长，如果这里不这么处理  出现 堆栈内存溢出的问题，有知道原因的大神指导一下哈
+								showLoading.setTitle("　　 已下载" + prg + "%　　 ");
+							}
+							break;
+						case 4:
+							plus.nativeUI.closeWaiting();
+							console.log('ok!!!');
+							break;
+					}
+
+				});
+
+			}
+
 		},
 		components: {
 			"game-detail": gameDetail,
 			"game-comment": gameComment,
-			"game-community": gameCommunity
+			"game-community": gameCommunity,
+			"popup": popup
 		}
 	}
 </script>
 
 <style lang="scss">
+	// 去除a标签下划线
+	a {
+		text-decoration: none
+	}
+
+	a:hover {
+		text-decoration: none
+	}
+
 	.header_top {
 		width: 750rpx;
 		height: 356rpx;
@@ -364,7 +435,7 @@
 					display: block; // inlineblock  block
 				}
 
-				text {
+				.table-btn {
 					width: 80rpx;
 					height: 40rpx;
 					line-height: 40rpx;

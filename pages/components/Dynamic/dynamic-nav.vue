@@ -1,7 +1,7 @@
 <template>
 	<view class="nav">
 		<block v-for="(item, index) in navData" :key="index">
-			<view class="nav_item" :class="[{ active: item.id == activeNavId }]" @tap="handelNav" :data-id="item.id">{{ item.name }}</view>
+			<view class="nav_item" :class="[{ active: item.GlobalValue == activeNavId }]" @tap="handelNav" :data-id="item.GlobalValue">{{ item.Name }}</view>
 		</block>
 		<view class="nav_right">
 			<view class="box_radius remind icon icon-sousuo"></view>
