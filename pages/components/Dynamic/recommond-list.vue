@@ -1,22 +1,22 @@
 <template>
 	<view class="recommond">
-		<block v-for="(item, index) in newRecommondData" :key="index">
+		<block v-for="(item, index) in recommondData" :key="index">
 			<view class="recommond_item" @tap="gotoGame" :data-index="index" :data-id="item.id">
 				<view class="item_image">
-					<image :src="item.img_url" mode="aspectFill"></image>
+					<image :src="item.GameBanner.ImgUrl" mode="aspectFill"></image>
 					<view class="hui" v-if="item.show"></view>
 				</view>
 				<view class="item_content">
 					<view class="content_ft">
 						<view class="title">
-							<view class="name">{{ item.name }}</view>
+							<view class="name">{{ item.Name }}</view>
 							<view class="btn">关注</view>
 						</view>
 						<view class="desc">{{ item.desc }}</view>
 					</view>
 					<view class="content_bd">
 						<view class="logo">score mana</view>
-						<view class="score">{{ item.score }}</view>
+						<view class="score">{{ item.Mana }}</view>
 						<!-- <view class="more icon icon-gengduo_huaban"></view> -->
 					</view>
 				</view>

@@ -26,27 +26,7 @@
 				pageIndex: 1,
 				to: 6,
 				navData: [],
-				recommondData: [{
-						name: '剑灵1', //网格图片
-						desc: 'RPG · MMORPG · 高画质',
-						score: '7.6',
-						img_url: '/static/image/dynamic/demo1.jpg',
-						show: false
-					},
-					{
-						name: '剑灵2', //网格图片
-						desc: 'RPG · MMORPG · 高画质',
-						score: '7.6',
-						img_url: '/static/image/dynamic/demo2.jpg',
-						show: false
-					},
-					{
-						name: '剑灵3', //网格图片
-						desc: 'RPG · MMORPG · 高画质',
-						score: '7.6',
-						img_url: '/static/image/dynamic/demo4.jpg',
-						show: false
-					},
+				recommondData: [
 				],
 				dynamicData: [{
 						type: 1, //网格图片
@@ -103,19 +83,20 @@
 			//子组件返回响应
 			dynamicNavReturn(param) {
 				console.log(param);
-				this.activeNavId = param;
-				this.newActive = param;
+				this.activeNavId = Number(param);
 				// console.log('改变后的值' + this.newActive);
 			},
 
 			// 推荐游戏列表
 			async getAllGames(type) {
 				const res = await this.$myRequest({
-					url: '/game/getAllGames/' + type + '/' + this.pageIndex + '/' + this.to,
+					url: '/game/getRecommends/' + type + '/' + this.pageIndex + '/' + this.to,
 					method: 'POST'
 				})
 				console.log(res.data)
-				this.recommondData = [...this.recommondData, ...res.data]
+				this.recommondData = res.data
+				console.log(res.data)
+				// this.recommondData = [...this.recommondData, ...res.data]
 			},
 		}
 	};

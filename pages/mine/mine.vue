@@ -185,7 +185,7 @@
 	.back_gif {
 		position: absolute;
 		left: 30vw;
-		bottom: 100upx;
+		bottom: 0upx;
 		width: 68vw;
 		height: 32vh;
 	}

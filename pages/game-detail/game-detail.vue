@@ -38,15 +38,17 @@
 
 			<view class="down">
 				<view class="btn">
+
 					<image src="../../static/image/icon/android.png"></image>
 
 					<!-- #ifdef APP-PLUS-->
-					<text class="table-btn" @click="dow()">下载</text>
+					<text class="table-btn" @click="downGame(gameData.DownUrl)">下载</text>
 					<!-- #endif -->
 
 					<!-- #ifdef H5 -->
 					<a class="table-btn" href="http://47.94.227.188:3344/apk/__UNI__B634BE4_0428141950.apk">下载</a>
 					<!-- #endif -->
+
 				</view>
 			</view>
 		</view>
@@ -226,34 +228,39 @@
 				// 	url: '/api/getImages/' + id
 				// })
 			},
+
 			// 跳转到游戏详情页面
 			goGameDetail(id) {
 				uni.navigateTo({
 					url: '/pages/game-detail/game-detail?id=' + id
 				})
 			},
+
 			// 初始化游戏信息
 			async getGameInfoById(id) {
 				const res = await this.$myRequest({
 					url: '/game/getGameInfoById/' + id,
 					method: 'POST'
 				})
-				// console.log(res.data)
+				console.log(res.data)
 				this.gameData = res.data
 			},
 
-			dow() {
+			downGame(down_url) {
+				// console.log(down_url)
+				// 创建下载
 				var dtask = plus.downloader.createDownload(
-					"http://47.94.227.188:3344/apk/__UNI__B634BE4_0428141950.apk", {},
+					down_url, {},
 					function(d, status) {
+						// 关闭弹框
 						plus.nativeUI.closeWaiting();
-						// this.$refs.loading.open()
+						
 						// 下载完成
 						if (status == 200) {
-							// this.$refs.loading.close()
 							console.log("Download success: " + d.filename);
+							// 自动获取文件并打开
 							var fileSaveUrl = plus.io.convertLocalFileSystemURL(d.filename);
-							plus.runtime.openFile(d.filename); //选择软件打开文件
+							plus.runtime.openFile(d.filename);
 						} else {
 							console.log("Download failed: " + status);
 						}
@@ -261,7 +268,8 @@
 
 				dtask.start();
 				var prg = 0;
-				var showLoading = plus.nativeUI.showWaiting("正在下载"); //创建一个showWaiting对象 
+				//创建一个showWaiting对象
+				var showLoading = plus.nativeUI.showWaiting("正在下载");  
 				dtask.addEventListener('statechanged', (task) => {
 					if (!dtask) {
 						return;
@@ -275,13 +283,13 @@
 							break;
 						case 3:
 							prg = parseInt(parseFloat(task.downloadedSize) / parseFloat(task.totalSize) * 100);
-							if (prg % 10 == 0) { // 让百分比 10% 增长，如果这里不这么处理  出现 堆栈内存溢出的问题，有知道原因的大神指导一下哈
+							if (prg % 10 == 0) {
 								showLoading.setTitle("　　 已下载" + prg + "%　　 ");
 							}
 							break;
 						case 4:
 							plus.nativeUI.closeWaiting();
-							console.log('ok!!!');
+							console.log('download game is ok!!!');
 							break;
 					}
 
