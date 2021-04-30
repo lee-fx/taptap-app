@@ -1,7 +1,7 @@
 <template>
 	<view class="recommond">
 		<block v-for="(item, index) in recommondData" :key="index">
-			<view class="recommond_item" @tap="gotoGame" :data-index="index" :data-id="item.Id">
+			<view class="recommond_item" @tap="goGameDetail(index, item.Id)" :data-index="index" :data-id="item.Id">
 				<view class="item_image">
 					<image :src="item.GameBanner.ImgUrl" mode="aspectFill"></image>
 					<view class="hui" v-if="item.Show"></view>
@@ -60,20 +60,18 @@
 		watch: {},
 
 		methods: {
-			gotoGame(e) {
-				var dataset = e.currentTarget.dataset
-				var index = dataset.index
-				var data = this.newRecommondData[index]
-				data.show = true
-				this.$set(this.newRecommondData, index, data)
+			goGameDetail(index, id) {
+				var data = this.recommondData[index]
+				data.Show = true
+				this.$set(this.recommondData, index, data)
 				setTimeout(() => {
-					data.show = false
-					this.$set(this.newRecommondData, index, data)
+					data.Show = false
+					this.$set(this.recommondData, index, data)
 					uni.navigateTo({
-						url: '/pages/game-detail/game-detail',
+						url: '/pages/game-detail/game-detail?id=' + id
 					})
 				}, 300)
-
+				
 			}
 		},
 

@@ -11,7 +11,7 @@
 		<view v-show="activeNavId == 1"> </view>
 
 		<recommond-list v-show="activeNavId == 2" :recommondData="recommondData"></recommond-list>
-
+		<view class="is_over" v-if="flag"> 没有更多了 </view>
 	</view>
 </template>
 
@@ -25,9 +25,10 @@
 				activeNavId: 2,
 				pageIndex: 1,
 				to: 7,
+				flag: false,
 				navData: [],
-				recommondData: [
-				],
+				gameType: 1,
+				recommondData: [],
 				dynamicData: [{
 						type: 1, //网格图片
 						img_url: ['/static/image/dynamic/demo1.jpg', '/static/image/dynamic/demo1.jpg',
@@ -61,12 +62,21 @@
 		},
 		onLoad() {
 			this.getNavs()
-			this.getAllGames(1)
+			this.getAllGames(this.gameType)
 		},
 		components: {
 			DynamicNav,
 			// DynamicList,
 			RecommondList
+		},
+		onReachBottom() {
+			if (this.recommondData.length >= 11) {
+				this.flag = true
+				return
+			}
+			// console.log('触底');
+			this.pageIndex++
+			this.getAllGames(this.gameType)
 		},
 		methods: {
 
@@ -93,13 +103,25 @@
 					url: '/game/getRecommends/' + type + '/' + this.pageIndex + '/' + this.to,
 					method: 'POST'
 				})
+				for (var k = 0, length = res.data.length; k < length; k++) {
+					res.data[k]['Show'] = false;
+				}
 				console.log(res.data)
-				this.recommondData = res.data
-				console.log(res.data)
-				// this.recommondData = [...this.recommondData, ...res.data]
+				// this.recommondData = res.data
+				// console.log(res.data)
+				this.recommondData = [...this.recommondData, ...res.data]
 			},
 		}
 	};
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+	.is_over {
+		width: 750rpx;
+		height: 75rpx;
+		line-height: 75rpx;
+		text-align: center;
+		/* background: #FFFFFF; */
+		font-size: 32rpx;
+	}
+</style>

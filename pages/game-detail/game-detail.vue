@@ -242,7 +242,7 @@
 					url: '/game/getGameInfoById/' + id,
 					method: 'POST'
 				})
-				console.log(res.data)
+				// console.log(res.data)
 				this.gameData = res.data
 			},
 

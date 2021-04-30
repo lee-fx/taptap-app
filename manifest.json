@@ -1,6 +1,6 @@
 {
     "name" : "taptap",
-    "appid" : "__UNI__B634BE4",
+    "appid" : "__UNI__C427420",
     "description" : "taptap-fake",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -109,10 +109,11 @@
     "h5" : {
         "title" : "taptap",
         "router" : {
-            "mode" : "hash"
+            "mode" : "history"
         },
         "devServer" : {
-            "https" : false
+            "https" : false,
+            "port" : 3344
         },
         "sdkConfigs" : {
             "maps" : {}
