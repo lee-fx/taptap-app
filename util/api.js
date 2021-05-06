@@ -1,4 +1,4 @@
-const BASE_URL = 'http://47.94.227.188:8000'
+const BASE_URL = 'http://localhost:8000'
 export const myRequest = (options) => {
 	return new Promise((resolve, reject) => {
 		uni.request({
