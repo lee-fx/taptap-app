@@ -124,6 +124,7 @@
 				if (!this.tag) {
 					// 初始化
 					this.games = res.data
+					console.log(res)
 				} else {
 					this.games = [...this.games, ...res.data]
 				}

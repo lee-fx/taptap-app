@@ -15,7 +15,8 @@
 
 		<!-- 导航区域 -->
 		<view class="nav_game">
-			<view class="nav_item" v-for="(item, index) in navs" :key="index" @click="navItemClick(item.GlobalSupplement)">
+			<view class="nav_item" v-for="(item, index) in navs" :key="index"
+				@click="navItemClick(item.GlobalSupplement)">
 				<!-- <view :class="item.icon"></view> -->
 				<view>
 					<image :src="item.GlobalValue"></image>

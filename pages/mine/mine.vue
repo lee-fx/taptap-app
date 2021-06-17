@@ -10,12 +10,11 @@
 			<view class="user_all_info" @tap="handelGotoLogin">
 				<view class="name">未登录</view>
 				<view class="user">ID:#######</view>
-				<view class="btn">礼仪</view>
+				<view class="btn">说明</view>
 			</view>
 			<view class="btn_all">
 				<view class="btn_item" @tap="handelEditInfo">编辑资料</view>
-				<view class="btn_item">用户设置</view>
-				<view class="btn_item">用户认证</view>
+				<view class="btn_item">用户信息</view>
 			</view>
 
 			<view class="info_view">
@@ -29,7 +28,7 @@
 				</view>
 				<view class="info_item">
 					<view class="num">0</view>
-					<view class="text">收藏</view>
+					<view class="text">下载</view>
 				</view>
 			</view>
 		</view>

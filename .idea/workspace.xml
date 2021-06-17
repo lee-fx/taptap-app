@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b6429374-0cc6-4ec7-8275-6d4d52ee3056" name="默认的" comment="">
+      <change beforePath="$PROJECT_DIR$/pages/mine/mine.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/mine/mine.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/rank/rank.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/rank/rank.vue" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1u4gmM1L8YEi1m5Y4EFvnHp33YE" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$USER_HOME$" />
+  </component>
+</project>
