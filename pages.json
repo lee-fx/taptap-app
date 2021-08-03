@@ -1,7 +1,9 @@
 {
-	"pages": [{
+	"pages": [
+		{
 			"path": "pages/index/index"
-		}, {
+		},
+		{
 			"path": "pages/recommend/recommend",
 			"style": {
 				"navigationBarTitleText": "",
@@ -21,7 +23,8 @@
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			}
-		}, {
+		},
+		{
 			"path": "pages/mine/mine",
 			"style": {
 				"navigationBarTitleText": "",
@@ -34,28 +37,27 @@
 				"navigationBarTitleText": "游戏列表",
 				"enablePullDownRefresh": true
 			}
-
-		}, {
+		},
+		{
 			"path": "pages/contact/contact",
 			"style": {
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			}
-
-		}, {
+		},
+		{
 			"path": "pages/community/community",
 			"style": {
 				"navigationBarTitleText": "社区交流",
 				"enablePullDownRefresh": false
 			}
-
-		}, {
+		},
+		{
 			"path": "pages/game-detail/game-detail",
 			"style": {
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			}
-
 		},
 		{
 			"path": "pages/login/login",
@@ -68,8 +70,45 @@
 			"style": {
 				"navigationBarTitleText": "Register"
 			}
+		},
+		{
+			"path": "pages/chat/chat",
+			"style": {
+				"navigationBarTitleText": "chat聊天室",
+				"navigationBarBackgroundColor": "#f2f2f2",
+				"backgroundColorTop": "#e5e5e5",
+				"backgroundColorBottom": "#e5e5e5",
+				"app-plus": {
+					"softinputNavBar": "none",
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/chat/details/details",
+			"style": {
+				"navigationBarBackgroundColor": "#cf3c35",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "红包",
+				"backgroundColorTop": "#cf3c35",
+				"backgroundColorBottom": "#fff"
+			}
+		},
+		{
+			"path": "pages/chat/hand/hand",
+			"style": {
+				"navigationBarBackgroundColor": "#cf3c35",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "发红包",
+				"backgroundColorTop": "#cf3c35",
+				"backgroundColorBottom": "#fff",
+				"app-plus": {
+					"softinputNavBar": "none",
+					"bounce": "none"
+				}
+			}
 		}
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "taptap",
@@ -81,7 +120,8 @@
 	"tabBar": {
 		"color": "#AAAAAA",
 		"selectedColor": "#47b5dd",
-		"list": [{
+		"list": [
+			{
 				"text": "首页",
 				"pagePath": "pages/index/index",
 				"iconPath": "static/image/icon/sy.png",
@@ -111,7 +151,6 @@
 				"iconPath": "static/image/icon/mine.png",
 				"selectedIconPath": "static/image/icon/mine_clink.png"
 			}
-
 		]
 	}
 }
