@@ -116,7 +116,11 @@
             "port" : 3344
         },
         "sdkConfigs" : {
-            "maps" : {}
+            "maps" : {
+                "qqmap" : {
+                    "key" : ""
+                }
+            }
         }
     }
 }
