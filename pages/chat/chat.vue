@@ -213,6 +213,10 @@
 	</view>
 </template>
 <script>
+	import {
+		connectWebSocket
+	} from "../../store/useSocket.js"; //引入socket.js 重要
+	
 	export default {
 		data() {
 			return {
@@ -854,6 +858,20 @@
 
 			//触发滑动到顶部(加载历史信息记录)
 			loadHistory(e) {
+
+				connectWebSocket();
+				var mobile = "123456";
+				//在跳转其他页面之前判断是否成功连接websocket
+		
+				this.$Socket.eventPatch.onOpen((msg, sk) => { //监听是否连接成功
+					console.log('连接成功')
+					//关闭其他页面，进入url页面
+					uni.reLaunch({
+						url: url + "?mobile=" + mobile
+					})
+					this.$Socket.nsend(mobile)
+				});
+
 				if (this.isHistoryLoading) {
 					return;
 				}
