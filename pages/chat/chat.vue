@@ -213,10 +213,7 @@
 	</view>
 </template>
 <script>
-	import {
-		connectWebSocket
-	} from "../../store/useSocket.js"; //引入socket.js 重要
-	
+	let app = getApp();
 	export default {
 		data() {
 			return {
@@ -775,6 +772,43 @@
 				this.recordEnd(e);
 			})
 			// #endif
+
+			uni.$on('app_test', (data) => { // 监听app.vue中的全局事件
+				// // 接受到后台发来的对话信息   data
+				var nowDate = new Date();
+				let newData = JSON.stringify(data) // 一条数据
+				// let userId = newData.user // id 对方的
+				// let type = newData.type
+				console.log("收到消息_______", newData)
+
+				// 收到信息后进行信息数据类型判断  后再显示
+				var nowDate = new Date();
+				let lastid = this.msgList[this.msgList.length - 1].msg.id;
+				lastid++;
+				let msg = {
+					type: "user",
+					msg: {
+						id: lastid,
+						time: nowDate.getHours() + ":" + nowDate.getMinutes(),
+						type: "text",
+						userinfo: {
+							uid: 0,
+							username: "大黑哥",
+							face: "/static/chat/img/face.jpg"
+						},
+						content: {
+							text: newData
+						}
+					}
+				}
+				// 发送消息
+				this.screenMsg(msg);
+			})
+
+		},
+		onUnload() {
+			// 移除监听事件
+			uni.$off('onmessage_fun');
 		},
 		onShow() {
 			this.scrollTop = 9999999;
@@ -858,20 +892,6 @@
 
 			//触发滑动到顶部(加载历史信息记录)
 			loadHistory(e) {
-
-				connectWebSocket();
-				var mobile = "123456";
-				//在跳转其他页面之前判断是否成功连接websocket
-		
-				this.$Socket.eventPatch.onOpen((msg, sk) => { //监听是否连接成功
-					console.log('连接成功')
-					//关闭其他页面，进入url页面
-					uni.reLaunch({
-						url: url + "?mobile=" + mobile
-					})
-					this.$Socket.nsend(mobile)
-				});
-
 				if (this.isHistoryLoading) {
 					return;
 				}
@@ -1268,7 +1288,14 @@
 				let msg = {
 					text: content
 				}
-				this.sendMsg(msg, 'text');
+				this.sendMsg(this.textMsg, 'text');
+
+				// var data = {};
+				// data['msgType'] = 'ping';
+				// data['msgData'] = this.textMsg;
+				// var sendData = JSON.stringify(data);
+				// this.sendMsg(sendData)
+
 				this.textMsg = ''; //清空输入框
 			},
 			//替换表情符号为图片
@@ -1295,48 +1322,103 @@
 
 			// 发送消息
 			sendMsg(content, type) {
-				//实际应用中，此处应该提交长连接，模板仅做本地处理。
+				// content为要发送的内容  type为要发送的内容类型  文字还是图片等
+
 				var nowDate = new Date();
-				let lastid = this.msgList[this.msgList.length - 1].msg.id;
-				lastid++;
-				let msg = {
-					type: 'user',
-					msg: {
-						id: lastid,
-						time: nowDate.getHours() + ":" + nowDate.getMinutes(),
-						type: type,
-						userinfo: {
-							uid: 0,
-							username: "大黑哥",
-							face: "/static/chat/img/face.jpg"
-						},
-						content: content
-					}
+				// 自己发出的消息
+				let myId = this.myuid // 自己的id
+				let uid = this.other_partyId // 发给谁的id
+				// let uid = '8' // 发给谁的id
+				// let msg = {
+				// 	id: 9,
+				// 	toUserName: "大黑哥",
+				// 	face: "/static/img/face.jpg",
+				// 	time: nowDate.getHours() + ":" + nowDate.getMinutes(),
+				// 	type: type,
+				// 	msg: content
+				// };
+				// this.screenMsg(msg); // 这是一个自己写的判断信息类型的方法
+
+				// var data = {};
+				// data['msgType'] = 'ping';
+				// data['msgData'] = this.textMsg;
+				// var sendData = JSON.stringify(data);
+				// this.sendMsg(sendData)
+
+				// let data = {
+				// 	user: uid, // 发给谁的id
+				// 	type: type,
+				// 	data: content
+				// }
+
+				let data = {
+					user: uid, // 发给谁的id
+					msgType: 'ping',
+					msgData: content
 				}
-				// 发送消息
-				this.screenMsg(msg);
-				// 定时器模拟对方回复,三秒
-				setTimeout(() => {
-					lastid = this.msgList[this.msgList.length - 1].msg.id;
-					lastid++;
-					msg = {
-						type: 'user',
-						msg: {
-							id: lastid,
-							time: nowDate.getHours() + ":" + nowDate.getMinutes(),
-							type: type,
-							userinfo: {
-								uid: 1,
-								username: "售后客服008",
-								face: "/static/chat/img/im/face/face_2.jpg"
-							},
-							content: content
-						}
+
+				let dataStr = JSON.stringify(data)
+				// console.log(app.globalData.SocketTask)
+				app.globalData.SocketTask.send({ // 发送消息
+					data: dataStr,
+					success: function(res) {
+						console.log("SocketTask 发送消息成功", res);
+					},
+					fail: function(res) {
+						console.log("SocketTask 发送消息失败", res);
+					},
+					complete() { // 成功或失败都执行
+						console.log("SocketTask 发送消息完成");
 					}
-					// 本地模拟发送消息
-					this.screenMsg(msg);
-				}, 3000)
+				})
+
 			},
+
+
+			// // 发送消息
+			// sendMsg(content, type) {
+			// 	//实际应用中，此处应该提交长连接，模板仅做本地处理。
+			// 	var nowDate = new Date();
+			// 	let lastid = this.msgList[this.msgList.length - 1].msg.id;
+			// 	lastid++;
+			// 	let msg = {
+			// 		type: 'user',
+			// 		msg: {
+			// 			id: lastid,
+			// 			time: nowDate.getHours() + ":" + nowDate.getMinutes(),
+			// 			type: type,
+			// 			userinfo: {
+			// 				uid: 0,
+			// 				username: "大黑哥",
+			// 				face: "/static/chat/img/face.jpg"
+			// 			},
+			// 			content: content
+			// 		}
+			// 	}
+			// 	// 发送消息
+			// 	this.screenMsg(msg);
+			// 	// 定时器模拟对方回复,三秒
+			// 	setTimeout(() => {
+			// 		lastid = this.msgList[this.msgList.length - 1].msg.id;
+			// 		lastid++;
+			// 		msg = {
+			// 			type: 'user',
+			// 			msg: {
+			// 				id: lastid,
+			// 				time: nowDate.getHours() + ":" + nowDate.getMinutes(),
+			// 				type: type,
+			// 				userinfo: {
+			// 					uid: 1,
+			// 					username: "售后客服008",
+			// 					face: "/static/chat/img/im/face/face_2.jpg"
+			// 				},
+			// 				content: content
+			// 			}
+			// 		}
+			// 		// 本地模拟发送消息
+			// 		this.screenMsg(msg);
+			// 	}, 3000)
+			// },
 
 			// 添加文字消息到列表
 			addTextMsg(msg) {

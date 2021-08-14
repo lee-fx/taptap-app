@@ -4,7 +4,7 @@ import socket from "../store/socket.js"; //引入socket.js，引入自己的路�
 //这里将socket.js中的创建连接和接受消息的监听放到一个可以向外部暴露的方法，方便在合适的时机创建websocket连接
 export function connectWebSocket(){
 	const Socket =new socket({
-	    url: 'ws://192.168.120.12:8999', //连接地址 必填
+	    url: 'ws://192.168.120.12:8787', //连接地址 必填
 	    onOpen(res) {
 	        console.log('连接成功')
 	    },
