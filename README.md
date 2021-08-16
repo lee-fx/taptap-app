@@ -17,6 +17,7 @@
 ```
 - components  // 外部组件目录
 - pages       // 项目界面
+  - chat        // 聊天界面
   - components  // 页面级别组件抽象目录
   - contact     // 开发简介
   - dynamic     // 游戏动态
