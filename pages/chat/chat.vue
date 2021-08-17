@@ -213,7 +213,6 @@
 	</view>
 </template>
 <script>
-	let app = getApp();
 	export default {
 		data() {
 			return {
@@ -773,38 +772,6 @@
 			})
 			// #endif
 
-			uni.$on('app_test', (data) => { // 监听app.vue中的全局事件
-				// // 接受到后台发来的对话信息   data
-				var nowDate = new Date();
-				let newData = JSON.stringify(data) // 一条数据
-				// let userId = newData.user // id 对方的
-				// let type = newData.type
-				console.log("收到消息_______", newData)
-
-				// 收到信息后进行信息数据类型判断  后再显示
-				var nowDate = new Date();
-				let lastid = this.msgList[this.msgList.length - 1].msg.id;
-				lastid++;
-				let msg = {
-					type: "user",
-					msg: {
-						id: lastid,
-						time: nowDate.getHours() + ":" + nowDate.getMinutes(),
-						type: "text",
-						userinfo: {
-							uid: 0,
-							username: "大黑哥",
-							face: "/static/chat/img/face.jpg"
-						},
-						content: {
-							text: newData
-						}
-					}
-				}
-				// 发送消息
-				this.screenMsg(msg);
-			})
-
 		},
 		onUnload() {
 			// 移除监听事件
@@ -813,8 +780,8 @@
 		onShow() {
 			this.scrollTop = 9999999;
 
-			//模板借由本地缓存实现发红包效果，实际应用中请不要使用此方法。
-			//
+			// 模板借由本地缓存实现发红包效果，实际应用中请不要使用此方法。
+			// 
 			uni.getStorage({
 				key: 'redEnvelopeData',
 				success: (res) => {
@@ -846,8 +813,19 @@
 					});
 				}
 			});
+			//页面渲染之后触发监听消息接收
+			this.onmessage();
 		},
 		methods: {
+
+			onmessage() {
+				//当websocket收到后端发送的消息时，触发
+				this.$Socket.eventPatch.onMsg((msg, sk) => { //监听是否接受消息
+					console.log(msg)
+					// var backMessage = msg.data.split(":");
+					// this.console = "来自你的好友:" + backMessage[0] + "，" + "发来的消息:" + backMessage[1];
+				});
+			},
 			// 接受消息(筛选处理)
 			screenMsg(msg) {
 				//从长连接处转发给这个方法，进行筛选处理
@@ -1358,19 +1336,8 @@
 				}
 
 				let dataStr = JSON.stringify(data)
-				// console.log(app.globalData.SocketTask)
-				app.globalData.SocketTask.send({ // 发送消息
-					data: dataStr,
-					success: function(res) {
-						console.log("SocketTask 发送消息成功", res);
-					},
-					fail: function(res) {
-						console.log("SocketTask 发送消息失败", res);
-					},
-					complete() { // 成功或失败都执行
-						console.log("SocketTask 发送消息完成");
-					}
-				})
+				//通过已经在登录页建立好的为websocket连接向后端发送消息
+				this.$Socket.nsend(dataStr);
 
 			},
 

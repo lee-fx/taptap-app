@@ -109,7 +109,8 @@
 				uni.navigateTo({
 					url: '/pages/game-detail/game-detail?id=' + id
 				})
-			}
+			},
+
 		},
 		components: {
 			"games-list": gamesList,

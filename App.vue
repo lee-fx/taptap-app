@@ -1,31 +1,7 @@
 <script>
 	import Vue from 'vue'
 	import { mapMutations } from 'vuex'
-	//socket连接标识 false未连接，true 连接
-	let socket_flag = false;
-	var SocketTask = uni.connectSocket({
-		header: {
-			// 'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxODI4NTEyMjQyNiIsImNyZWF0ZWQiOjE1ODY1NzMzNjE5ODksImV4cCI6MTU4NzE3ODE2MX0.15CjVJh5Adz1pXTdGkDDiT6HzOwtnOj-y4l6sDVD2eBNO4zFMkPw1ixhfyB8fOx62AF6FTv2z1maNO2i6-FS-g',
-			'content-type': 'application/json'
-		},
-		url: 'ws://192.168.120.12:8787/',
-		fail: function(res) {
-			console.log("连接服务器websocket_失败", res);
-		},
-		success: function(res) {
-			console.log("连接服务器websocket_成功", res);
-			socket_flag = true;
-		},
-		complete: function(res) {
-			console.log("连接服务器websocket_完成", res);
-		}
-	});
 
-
-
-	// import {
-	// 	connectWebSocket
-	// } from "./store/useSocket.js"; //引入socket.js 重要
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
@@ -56,87 +32,16 @@
 		},
 		onShow: function() {
 			console.log('App Show')
-
-			// 判断socket连接标识 false未连接，true 连接
-			if (!socket_flag) {
-				// 调用methods中方法打开创建连接
-				this.openSocketFun();
-			}
-			// 调用全局的创建连接方法    执行.onOpen打开连接
-			SocketTask.onOpen((res) => {
-				console.log("socketTask 打开连接: ", res);
-				socket_flag = true; // 修改连接标识 为true
-				this.onmessage_fun(); // 调用接收通信信息的方法 接收信息
-			});
-			// connectWebSocket();
-			// // var mobile = '{"msgType":"ping", "msgData":"111"}';
-			// //在跳转其他页面之前判断是否成功连接websocket
-
-			// this.$Socket.eventPatch.onOpen((msg, sk) => { //监听是否连接成功
-			// 	console.log('连接成功')
-			// 	// // 关闭其他页面，进入url页面
-			// 	// uni.reLaunch({
-			// 	// 	url: '/pages/game-detail/game-detail'
-			// 	// })
-			// 	// this.$Socket.nsend(mobile)
-			// });
 		},
 		onHide: function() {
 			console.log('App Hide')
-			// 关闭连接
-			SocketTask.close({
-				code: 1000,
-				success: function() {
-					console.log("SocketTask close success ");
-				},
-				fail: function(res) {
-					console.log("SocketTask close fail ", res);
-				}
 
-			});
-			// 关闭连接并且修改标识
-			SocketTask.onClose(function() {
-				console.log("SocketTask onClose success ");
-				socket_flag = false;
-			})
 		},
 		globalData: { //   导出为全局方法使用
-			SocketTask: SocketTask
+			// SocketTask: SocketTask
 		},
 		methods: {
-			...mapMutations(['login']),
-
-			onmessage_fun: function() {
-				console.log("onmessage_fun_______");
-				SocketTask.onMessage(function(data) {
-					console.log("SocketTask 通信接受消息______", data);
-					uni.$emit('app_test', data);
-				})
-			},
-			//中转事件
-			app_test: function(data) {
-				console.log("监听到了，接受消息的事件回调::ffffffffff::::::")
-			},
-
-			openSocketFun: function() {
-				SocketTask = uni.connectSocket({
-					header: {
-						// 'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxODI4NTEyMjQyNiIsImNyZWF0ZWQiOjE1ODY1NzMzNjE5ODksImV4cCI6MTU4NzE3ODE2MX0.15CjVJh5Adz1pXTdGkDDiT6HzOwtnOj-y4l6sDVD2eBNO4zFMkPw1ixhfyB8fOx62AF6FTv2z1maNO2i6-FS-g',
-						'content-type': 'application/json'
-					},
-					url: 'ws://192.168.120.12:8787',
-					fail: function(res) {
-						console.log("连接服务器websocket_失败", res);
-					},
-					success: function(res) {
-						console.log("连接服务器websocket_成功", res);
-					},
-					complete: function(res) {
-						console.log("连接服务器websocket_完成", res);
-					}
-				});
-				getApp().globalData.SocketTask = SocketTask;
-			}
+	
 		}
 
 	}
